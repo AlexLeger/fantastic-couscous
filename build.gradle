@@ -15,4 +15,14 @@ dependencies {
 jar {
     baseName = 'HelloWorld'
     version =  '0.1.0'
+    //(1) Add MANIFEST file to the jar saying  where the main class is 
+    //and (2) that the dependencies should be contained in the jar (fat jar) to make it executable
+    //https://www.petrikainulainen.net/getting-started-with-gradle/
+    //http://web.archive.org/web/20160817075921/http://kennethjorgensen.com/blog/2014/fat-jars-with-excluded-dependencies-in-gradle
+    manifest {
+        attributes(
+                'Main-Class': 'hello.HelloWorld'
+        )
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
