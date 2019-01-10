@@ -1,4 +1,18 @@
+//Dependencies needed for Gradle plugins
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath(
+                //To be able to use the spring-boot plugin
+                'org.springframework.boot:spring-boot-gradle-plugin:2.1.0.RELEASE' //Changed version to match OpFab
+        )
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'org.springframework.boot' // Changed from 'spring-boot' after switching gradle plugin version in dependencies
 
 repositories {
     mavenCentral()
@@ -8,8 +22,14 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile "joda-time:joda-time:2.2"
-    testCompile "junit:junit:4.12"
+    compile (
+            'joda-time:joda-time:2.2',
+            'org.springframework.boot:spring-boot-starter-web:2.1.0.RELEASE'
+    )
+    testCompile(
+            'junit:junit:4.12',
+            'org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE'
+    )
 }
 
 jar {
