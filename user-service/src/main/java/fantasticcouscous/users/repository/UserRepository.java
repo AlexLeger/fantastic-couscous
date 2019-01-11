@@ -36,8 +36,13 @@ public class UserRepository {
                 groups.add("good guys");
                 user.setGroups(groups);*/
                 return user;
+
             default :
-                return null;
+                user = new UserData();
+                user.setLogin("unknown user");
+                user.setFirstName("unknown");
+                return user;
+
         }
     }
 }
