@@ -7,6 +7,10 @@ public class UserData {
     //private String lastName;
     //private Set<String> groupSet;
 
+
+    public UserData() {
+    }
+
     public UserData(String login, String firstName) {
         this.login = login;
         this.firstName = firstName;
