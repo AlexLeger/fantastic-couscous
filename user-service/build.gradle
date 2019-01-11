@@ -19,6 +19,11 @@ repositories {
     mavenCentral()
 }
 
+bootJar {
+    baseName = 'user-service'
+    version =  '0.0.1-SNAPSHOT'
+}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -30,4 +35,10 @@ dependencies {
             'junit:junit:4.12',
             'org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE'
     )
+}
+
+//Added to fix error message in IntelliJ after importing changes : Task 'wrapper' not found in project ':user-service'.
+//TODO : See if really needed since we don't want gradle wrapper in every child project ? Or do we ?
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.6'
 }
