@@ -38,6 +38,6 @@ public class HttpRequestTest {
     public void userServiceShouldReturnUserData() throws Exception {
         String login = "jmcclane";
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/" + endpoint + "/" + login, //TODO Fix to expect json response
-                String.class)).contains("Hello World");
+                String.class)).contains("{\"login\":\"jmcclane\",\"firstName\":\"John\"}");
     }
 }
