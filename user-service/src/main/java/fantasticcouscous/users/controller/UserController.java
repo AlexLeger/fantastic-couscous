@@ -12,8 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    @Autowired
-    UserRepository userRepository;
+    @Autowired(required = false)
+    private UserRepository userRepository;
+    /* "Autowired" can be replaced with constructor (tests OK). TODO: Find out the differences (if any) between the two options
+     */
+
+    /*public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }*/
 
     @RequestMapping(value = "/user/{login}",
             produces = { "application/json" },
