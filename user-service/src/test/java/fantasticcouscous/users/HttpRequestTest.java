@@ -39,5 +39,9 @@ public class HttpRequestTest {
         String login = "jmcclane";
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/" + endpoint + "/" + login, //TODO Fix to expect json response
                 String.class)).contains("{\"login\":\"jmcclane\",\"firstName\":\"John\"}");
+
+        login = "GrosGros";
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/" + endpoint + "/" + login, //TODO Fix to expect json response
+                String.class)).contains("{\"login\":\"GrosGros\",\"firstName\":\"Mathias\"}");
     }
 }
