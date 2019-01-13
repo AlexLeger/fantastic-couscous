@@ -22,4 +22,9 @@ public class UserController {
         return userRepository.getUserDatabyLogin(login);
     }
 
+    @RequestMapping(value = "/service_info")
+    public String getServiceInfo() {
+        return "This is the user service."; //TODO Replace by application property (or switch to Actuator)
+    }
+
 }
