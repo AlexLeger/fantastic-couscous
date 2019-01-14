@@ -29,12 +29,15 @@ targetCompatibility = 1.8
 
 dependencies {
     compile (
-            'org.springframework.boot:spring-boot-starter-web:2.1.0.RELEASE'
+            'org.springframework.boot:spring-boot-starter-web:2.1.0.RELEASE',
+            'org.springframework.boot:spring-boot-starter-data-jpa:2.1.2.RELEASE',
+            'com.h2database:h2:1.4.197' //TODO Find out whether it could be in runtime only (as stated in other guides)
     )
     testCompile(
             'junit:junit:4.12',
             'org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE'
     )
+
 }
 
 //Added to fix error message in IntelliJ after importing changes : Task 'wrapper' not found in project ':user-service'.

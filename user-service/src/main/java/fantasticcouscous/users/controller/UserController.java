@@ -25,7 +25,7 @@ public class UserController {
             produces = { "application/json" },
             method = RequestMethod.GET)
     public UserData getUserInfo(@PathVariable("login") String login) {
-        return userRepository.getUserDatabyLogin(login);
+        return userRepository.findOneByLogin(login);
     }
 
     @RequestMapping(value = "/service_info")

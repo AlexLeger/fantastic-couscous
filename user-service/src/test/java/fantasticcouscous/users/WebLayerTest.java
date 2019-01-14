@@ -1,6 +1,5 @@
 package fantasticcouscous.users;
 
-import fantasticcouscous.users.controller.UserController;
 import fantasticcouscous.users.model.UserData;
 import fantasticcouscous.users.repository.UserRepository;
 import org.junit.Test;
@@ -12,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.theInstance;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -50,8 +48,6 @@ public class WebLayerTest {
     @MockBean
     private UserRepository mockUserRepository;
 
-
-
     @Test
     public void shouldReturnServiceInfo() throws Exception {
         this.mockMvc.perform(get("/service_info")).andDo(print()).andExpect(status().isOk())
@@ -61,10 +57,8 @@ public class WebLayerTest {
     @Test
     public void shouldReturnUserData() throws Exception {
         String login = "jmcclane";
-        UserData user = new UserData();
-        user.setLogin("jmcclane");
-        user.setFirstName("John");
-        when(mockUserRepository.getUserDatabyLogin(login)).thenReturn(user); //Set expectations for mock repository
+        UserData user = new UserData("jmcclane","John");
+        when(mockUserRepository.findOneByLogin(login)).thenReturn(user); //Set expectations for mock repository
 
         this.mockMvc.perform(get("/user/"+login)).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("{\"login\":\"jmcclane\",\"firstName\":\"John\"}")));
