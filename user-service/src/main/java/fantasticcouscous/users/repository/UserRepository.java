@@ -5,9 +5,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
 @Component
 public class UserRepository {
+/* If we remove @Component, the service_info endpoint still works but not the user endpoint.
+*  Oddly enough, the only test that fails is HttpRequestTest/userServiceShouldReturnUser
+*  WebLayerTest/shouldReturnUserData passes -> actually it makes sense because we mock the repository in this one
+* */
+
 
     public UserData getUserDatabyLogin(String login){
 
