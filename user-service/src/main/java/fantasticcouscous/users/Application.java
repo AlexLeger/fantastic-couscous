@@ -35,6 +35,10 @@ public class Application {
             }
             log.info("");
 
+            // fetch an individual user by login
+            log.info("User found with login jmclane: ");
+            UserData loginuser = userRepository.findOneByLogin("jmcclane");
+            log.info(loginuser.toString());
             // fetch an individual user by ID
             /*userRepository.findById(1L)
                     .ifPresent(customer -> {
