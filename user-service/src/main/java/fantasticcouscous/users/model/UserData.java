@@ -36,6 +36,14 @@ public class UserData {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
+    @Override
+    public String toString() {
+        return "UserData{" +
+                "login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                '}';
+    }
 }
 
 // https://spring.io/guides/gs/accessing-data-jpa/
