@@ -11,13 +11,12 @@ public class UserRepository {
 
     public UserData getUserDatabyLogin(String login){
 
-        UserData user;
+        UserData user = new UserData();
+        user.setLogin(login);
 
         switch(login) {
 
             case "jmcclane" :
-                user = new UserData();
-                user.setLogin("jmcclane");
                 user.setFirstName("John");
                 /*user.setLastName("McClane");
                 List<String> groups = new ArrayList<>();
@@ -26,21 +25,17 @@ public class UserRepository {
                 user.setGroups(groups);*/
                 return user;
 
-            case "GrosGros" :
-                user = new UserData();
-                user.setLogin("GrosGros");
-                user.setFirstName("Mathias");
-                /*user.setLastName("McClane");
+            case "hgruber" :
+                user.setFirstName("Hans");
+                /*user.setLastName("Gruber");
                 List<String> groups = new ArrayList<>();
                 groups.add("user");
-                groups.add("good guys");
+                groups.add("bad guys");
                 user.setGroups(groups);*/
                 return user;
 
             default :
-                user = new UserData();
-                user.setLogin("unknown user");
-                user.setFirstName("unknown");
+                user.setFirstName("unknown user"); //TODO Throw exception or handle error instead
                 return user;
 
         }
