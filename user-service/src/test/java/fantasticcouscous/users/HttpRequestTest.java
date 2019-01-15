@@ -2,11 +2,7 @@ package fantasticcouscous.users;
 
 import fantasticcouscous.users.model.UserData;
 import fantasticcouscous.users.repository.UserRepository;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /* This test starts the whole application and pretends to send an HTTP request (using restTemplate ?) then asserts the response */
 
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class HttpRequestTest {
 
@@ -39,7 +34,7 @@ public class HttpRequestTest {
     @Autowired
     private TestRestTemplate restTemplate; //TestRestTemplate is provided by SpringBoot, we just have to autowire it.
 
-    @Before
+    @BeforeEach
     public void init_userRepository(){
         //Adds a few users to the repository for userServiceShouldReturnUserData test
         userRepository.save(new UserData("jmcclane", "John"));
@@ -74,6 +69,6 @@ public class HttpRequestTest {
                 String.class)).contains("{\"login\":\"sgruber\",\"firstName\":\"Simon\"}");
     }
 
-    @After
+    @AfterEach
     public void clean() { userRepository.deleteAll(); }
 }

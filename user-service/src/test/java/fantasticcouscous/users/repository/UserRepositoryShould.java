@@ -1,30 +1,30 @@
 package fantasticcouscous.users.repository;
 
+import fantasticcouscous.users.Application;
 import fantasticcouscous.users.model.UserData;
-import org.h2.engine.User;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 @SpringBootTest
-/* Without it, Srping doesn't know it has to start the application context and we get : Unsatisfied dependency expressed through field 'userRepository' */
-@RunWith(SpringRunner.class)
+/* Without it, Spring doesn't know it has to start the application context and we get : Unsatisfied dependency expressed through field 'userRepository' */
+//@ExtendWith(SpringExtension.class) //SpringExtension integrates Junit5 with the Spring Framework -> Useless here, it's already included in @SpringBootTest */
+//@RunWith(SpringRunner.class)
 /* Without it, all tests fail with NP exception at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68) */
 public class UserRepositoryShould {
+
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     @Autowired
     private UserRepository userRepository;
 
-    @Before
+    @BeforeEach //Was @BeforeAll but org.junit.platform.commons.JUnitException: @BeforeAll method 'public void fantasticcouscous.users.HttpRequestTest.init_userRepository()' must be static unless the test class is annotated with @TestInstance(Lifecycle.PER_CLASS).
     public void setUp() throws Exception {
         UserData u1, u2, u3;
         u1 = new UserData("kgodel","Kurt");
@@ -35,7 +35,7 @@ public class UserRepositoryShould {
         userRepository.save(u3);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         userRepository.deleteAll();
     }
@@ -50,7 +50,19 @@ public class UserRepositoryShould {
     }
 
     @Test
+    public void deleteById() {
+        log.info("UserRepo count : "+ userRepository.count());
+        Long countBefore = userRepository.count();
+        userRepository.deleteById("kwallander");
+        assertThat(userRepository.count()).isEqualTo(countBefore-1);
+        UserData result = userRepository.findOneByLogin("kwallander");
+        assertThat(result).isNull();
+        log.info("UserRepo count : "+ userRepository.count());
+    }
+
+    @Test
     public void findOneByLogin() {
+        log.info("UserRepo count : "+ userRepository.count());
         UserData result = userRepository.findOneByLogin("kwallander");
         assertThat(result).isNotNull();
         assertThat(result.getLogin()).isEqualTo("kwallander");
