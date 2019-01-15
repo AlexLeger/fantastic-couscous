@@ -3,6 +3,7 @@ package fantasticcouscous.users.repository;
 import fantasticcouscous.users.model.UserData;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 @Component //TODO Change to @Repository ?
