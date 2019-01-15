@@ -1,0 +1,3 @@
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=AlexLeger_fantastic-couscous&metric=alert_status)](https://sonarcloud.io/dashboard?id=AlexLeger_fantastic-couscous)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=AlexLeger_fantastic-couscous&metric=coverage)](https://sonarcloud.io/component_measures?id=AlexLeger_fantastic-couscous&metric=Coverage)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=AlexLeger_fantastic-couscous&metric=code_smells)](https://sonarcloud.io/component_measures?id=AlexLeger_fantastic-couscous&metric=Maintainability)
