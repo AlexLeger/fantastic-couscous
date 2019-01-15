@@ -1,0 +1,67 @@
+//Dependencies needed for Gradle plugins
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath(
+                //To be able to use the spring-boot plugin
+                'org.springframework.boot:spring-boot-gradle-plugin:2.1.0.RELEASE' //Changed version to match OpFab
+        )
+    }
+}
+
+// SonarCloud
+plugins {
+    id "org.sonarqube" version "2.6"
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot' // Changed from 'spring-boot' after switching gradle plugin version in dependencies
+
+repositories {
+    mavenCentral()
+}
+
+bootJar {
+    baseName = 'business-service'
+    version =  '0.0.1-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile (
+            'org.springframework.boot:spring-boot-starter-web:2.1.0.RELEASE',
+            'org.springframework.boot:spring-boot-starter-data-jpa:2.1.2.RELEASE',
+            'com.h2database:h2:1.4.197' //TODO Find out whether it could be in runtime only (as stated in other guides)
+    )
+    testCompile(
+            'org.junit.jupiter:junit-jupiter-api:5.3.1',
+            'org.junit.jupiter:junit-jupiter-engine:5.3.1',
+            'org.junit.platform:junit-platform-gradle-plugin:1.2.0',
+            'org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE'
+    )
+
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+/* Explanations regarding Junit dependencies
+https://github.com/junit-team/junit5-samples/blob/r5.3.2/junit5-jupiter-starter-gradle/build.gradle
+https://junit.org/junit5/docs/current/user-guide/#dependency-metadata
+
+https://www.baeldung.com/junit-5-migration
+*/
+
+//Added to fix error message in IntelliJ after importing changes : Task 'wrapper' not found in project ':user-service'.
+//TODO : See if really needed since we don't want gradle wrapper in every child project ? Or do we ?
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.6'
+}
