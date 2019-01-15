@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ApplicationTest {
+public class ApplicationShould {
 
     @Test
     public void contextLoads() throws Exception {
@@ -25,7 +25,6 @@ public class ApplicationTest {
         //Was KO because class wasn't in correct package so had the following message :
         // java.lang.IllegalStateException: Unable to find a @SpringBootConfiguration, you need to use @ContextConfiguration or @SpringBootTest(classes=...) with your test
     }
-
 
     /*
 Another useful approach is to not start the server at all, but test only the layer below that,

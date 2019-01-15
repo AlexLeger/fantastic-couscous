@@ -1,5 +1,6 @@
-package fantasticcouscous.users;
+package fantasticcouscous.users.controller;
 
+import fantasticcouscous.users.controller.UserController;
 import fantasticcouscous.users.model.UserData;
 import fantasticcouscous.users.repository.UserRepository;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,10 +21,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest
-public class WebLayerTest {
+public class UserControllerShould {
+
+    @Autowired
+    private UserController userController;
+
+    @Test
+    public void controllerShouldLoad() throws Exception {
+        assertThat(userController).isNotNull(); //Makes sure that userController gets created
+    }
 
     /*
-    In the test from ApplicationTest (using @AutoConfigureMockMvc) the full Spring application context was started, but without the server. We can narrow down the tests to just the web layer by using @WebMvcTest.
+    In the test from ApplicationShould (using @AutoConfigureMockMvc) the full Spring application context was started, but without the server. We can narrow down the tests to just the web layer by using @WebMvcTest.
     The test assertion is the same as in the previous case, but here Spring Boot is only instantiating the web layer, not the whole context.
     In an application with multiple controllers you can even ask for just one to be instantiated, using, for example @WebMvcTest(HomeController.class)
 
@@ -30,7 +40,7 @@ public class WebLayerTest {
      */
 
     /* 1rst fail :
-    * WebLayerTest fails with the following message :
+    * UserControllerShould fails with the following message :
     Field userRepository in fantasticcouscous.users.controller.UserController required a bean of type 'fantasticcouscous.users.repository.UserRepository' that could not be found.
     The injection point has the following annotations:
 	- @org.springframework.beans.factory.annotation.Autowired(required=true)
