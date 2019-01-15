@@ -17,10 +17,6 @@ public class UserController {
     /* "Autowired" can be replaced with constructor (tests OK). TODO: Find out the differences (if any) between the two options
      */
 
-    /*public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }*/
-
     @RequestMapping(value = "/user/{login}",
             produces = { "application/json" },
             method = RequestMethod.GET)
