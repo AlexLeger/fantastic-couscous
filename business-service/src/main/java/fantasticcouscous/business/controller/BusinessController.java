@@ -10,4 +10,5 @@ public class BusinessController {
     public String getServiceInfo() {
         return "This is the business service."; //TODO Replace by application property (or switch to Actuator)
     }
+
 }
