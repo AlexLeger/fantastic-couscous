@@ -24,7 +24,7 @@ public class UserRepositoryShould {
     @Autowired
     private UserRepository userRepository;
 
-    @BeforeEach //Was @BeforeAll but org.junit.platform.commons.JUnitException: @BeforeAll method 'public void fantasticcouscous.users.HttpRequestTest.init_userRepository()' must be static unless the test class is annotated with @TestInstance(Lifecycle.PER_CLASS).
+    @BeforeEach //Was @BeforeAll but org.junit.platform.commons.JUnitException: @BeforeAll method XXX must be static unless the test class is annotated with @TestInstance(Lifecycle.PER_CLASS).
     public void setUp() throws Exception {
         UserData u1, u2, u3;
         u1 = new UserData("kgodel","Kurt");

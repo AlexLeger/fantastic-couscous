@@ -1,5 +1,4 @@
 //Dependencies needed for Gradle plugins
-
 buildscript {
     repositories {
         mavenCentral()
@@ -10,6 +9,11 @@ buildscript {
                 'org.springframework.boot:spring-boot-gradle-plugin:2.1.0.RELEASE' //Changed version to match OpFab
         )
     }
+}
+
+// SonarCloud
+plugins {
+    id "org.sonarqube" version "2.6"
 }
 
 apply plugin: 'java'
