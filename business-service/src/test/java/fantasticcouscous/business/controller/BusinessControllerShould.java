@@ -1,11 +1,14 @@
 package fantasticcouscous.business.controller;
 
+import fantasticcouscous.business.services.BusinessService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -18,11 +21,20 @@ class BusinessControllerShould {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private BusinessService mockBusinessService;
+
     @Test
     void shouldReturnServiceInfo() throws Exception {
         this.mockMvc.perform(get("/service_info")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("This is business-service")));
     }
 
+    @Test
+    void shouldReturnBusiness() throws Exception {
+        when(mockBusinessService.performBusinessOperation()).thenReturn("Business operation is performed."); //Set expectations for mock business service
+        this.mockMvc.perform(get("/business")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Business operation is performed.")));
+    }
 
 }
