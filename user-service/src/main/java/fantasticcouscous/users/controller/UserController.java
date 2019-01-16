@@ -16,7 +16,7 @@ public class UserController {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @Autowired(required = false)
+    @Autowired
     private UserRepository userRepository;
     /* "Autowired" can be replaced with constructor (tests OK). TODO: Find out the differences (if any) between the two options
      */
