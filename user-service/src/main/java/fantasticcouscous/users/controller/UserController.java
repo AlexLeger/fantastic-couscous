@@ -3,6 +3,7 @@ package fantasticcouscous.users.controller;
 import fantasticcouscous.users.model.UserData;
 import fantasticcouscous.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
+
+    @Value("${spring.application.name}")
+    private String applicationName;
 
     @Autowired(required = false)
     private UserRepository userRepository;
@@ -26,7 +30,7 @@ public class UserController {
 
     @RequestMapping(value = "/service_info")
     public String getServiceInfo() {
-        return "This is the user service."; //TODO Replace by application property (or switch to Actuator)
+        return "This is "+applicationName;
     }
 
 }

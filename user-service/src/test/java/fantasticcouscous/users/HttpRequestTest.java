@@ -57,7 +57,7 @@ public class HttpRequestTest {
     @Test
     public void userServiceShouldReturnServiceInfo() throws Exception {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/service_info/",
-                String.class)).contains("This is the user service.");
+                String.class)).contains("This is user-service");
     }
 
     @Test

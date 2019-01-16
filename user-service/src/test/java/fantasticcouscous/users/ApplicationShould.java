@@ -40,7 +40,7 @@ Source : https://spring.io/guides/gs/testing-web/
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
         this.mockMvc.perform(get("/service_info")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("This is the user service.")));
+                .andExpect(content().string(containsString("This is user-service")));
     }
 
 }

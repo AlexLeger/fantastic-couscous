@@ -21,7 +21,7 @@ class BusinessControllerShould {
     @Test
     void shouldReturnServiceInfo() throws Exception {
         this.mockMvc.perform(get("/service_info")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("This is the business service.")));
+                .andExpect(content().string(containsString("This is business-service")));
     }
 
 
