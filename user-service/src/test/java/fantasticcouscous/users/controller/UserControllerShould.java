@@ -29,7 +29,7 @@ public class UserControllerShould {
     }
 
     /*
-    In the test from ApplicationShould (using @AutoConfigureMockMvc) the full Spring application context was started, but without the server. We can narrow down the tests to just the web layer by using @WebMvcTest.
+    In the test from UserApplicationShould (using @AutoConfigureMockMvc) the full Spring application context was started, but without the server. We can narrow down the tests to just the web layer by using @WebMvcTest.
     The test assertion is the same as in the previous case, but here Spring Boot is only instantiating the web layer, not the whole context.
     In an application with multiple controllers you can even ask for just one to be instantiated, using, for example @WebMvcTest(HomeController.class)
 

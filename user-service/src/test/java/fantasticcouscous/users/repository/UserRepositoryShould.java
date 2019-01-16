@@ -1,6 +1,6 @@
 package fantasticcouscous.users.repository;
 
-import fantasticcouscous.users.Application;
+import fantasticcouscous.users.UserApplication;
 import fantasticcouscous.users.model.UserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /* Without it, all tests fail with NP exception at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68) */
 public class UserRepositoryShould {
 
-    private static final Logger log = LoggerFactory.getLogger(Application.class);
+    private static final Logger log = LoggerFactory.getLogger(UserApplication.class);
 
     @Autowired
     private UserRepository userRepository;

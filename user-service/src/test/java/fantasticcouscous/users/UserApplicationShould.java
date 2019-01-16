@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 //@RunWith(SpringRunner.class)
-public class ApplicationShould {
+public class UserApplicationShould {
 
     @Test
     public void contextLoads() throws Exception {
