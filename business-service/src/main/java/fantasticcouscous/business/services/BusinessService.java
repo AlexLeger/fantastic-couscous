@@ -28,7 +28,6 @@ public class BusinessService {
         log.info("Retrieved user data  : "+userData.toString());
         return "Business operation is performed. Retrieved data for user : " + userData.toString();*/
         Quote quote = restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
-        log.info(quote.toString());
         return "Business operation is performed. Retrieved quote : "+quote.toString();
     }
 

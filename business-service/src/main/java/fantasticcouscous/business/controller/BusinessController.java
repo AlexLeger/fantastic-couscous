@@ -2,8 +2,7 @@ package fantasticcouscous.business.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import fantasticcouscous.business.services.BusinessService;
 
@@ -16,12 +15,14 @@ public class BusinessController {
     @Autowired
     private BusinessService businessService;
 
-    @RequestMapping(value = "/service_info")
+    @GetMapping(value = "/service_info",
+            produces = { "application/json" })
     public String getServiceInfo() {
         return "This is "+applicationName;
     }
 
-    @RequestMapping(value = "/business", produces = { "application/json" }, method = RequestMethod.GET)
+    @GetMapping(value = "/business",
+            produces = { "application/json" })
     public String getBusinessInfo() {
         return businessService.performBusinessOperation();
     }
