@@ -18,7 +18,7 @@ public class BusinessApplicationShould {
     private String applicationName;
 
     @Test
-    public void shouldApplicationPropertiesFile(){
+    public void shouldReadApplicationPropertiesFile(){
         assertThat(applicationName).isEqualTo("business-service");
     }
 

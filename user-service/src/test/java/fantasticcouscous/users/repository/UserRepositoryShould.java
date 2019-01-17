@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 //@ExtendWith(SpringExtension.class) //SpringExtension integrates Junit5 with the Spring Framework -> Useless here, it's already included in @SpringBootTest */
 //@RunWith(SpringRunner.class)
 /* Without it, all tests fail with NP exception at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68) */
+@ActiveProfiles("test")
 public class UserRepositoryShould {
 
     private static final Logger log = LoggerFactory.getLogger(UserApplication.class);
@@ -73,9 +75,13 @@ public class UserRepositoryShould {
 
     @Test
     public void persistUser() {
+        //Check user count before persisting new user
+        Long countBefore = userRepository.count();
+        //Check that user doesn't already exist in the repository
+        assertThat(userRepository.findOneByLogin("hmankell")).isNull();
         UserData userData = new UserData("hmankell","Henning");
         userRepository.save(userData);
-        assertThat(userRepository.count()).isEqualTo(4);
+        assertThat(userRepository.count()).isEqualTo(countBefore+1);
         UserData result = userRepository.findOneByLogin("hmankell");
         assertThat(result).isNotNull();
         assertThat(result.getLogin()).isEqualTo("hmankell");
