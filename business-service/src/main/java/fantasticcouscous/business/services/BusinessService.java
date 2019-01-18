@@ -29,20 +29,16 @@ public class BusinessService {
     private int port;
 
     public String performBusinessOperation(){
-        if(isNull(this.restTemplate)) {
-            log.info("Rest template is null !!!!!!!!");
-        }
-        String result = this.restTemplate.getForObject("http://localhost:" + port + "/service_info/",
-                String.class);
-        return result;
-    }
-
-
-    public String retrieveUserData(){
-        log.info("Retrieving user data from : "+"localhost:"+userServicePort+"/user/jmcclane");
-        UserData userData = restTemplate.getForObject("localhost:"+userServicePort+"/user/jmcclane", UserData.class);
+        log.info("Retrieving user data from : "+"http://localhost:"+userServicePort+"/user/hmankell");
+        UserData userData = restTemplate.getForObject("http://localhost:"+userServicePort+"/user/hmankell", UserData.class); // Don't forget http:// !!!!!!
         log.info("Retrieved user data  : "+userData.toString());
         return "Business operation is performed. Retrieved data for user : " + userData.toString();
+    }
+
+    public String getServiceInfo(){ //This is only to check that restTemplate is correctly configured by calling one of its own endpoints.
+        String result = this.restTemplate.getForObject("http://localhost:" + port + "/service_info/",
+                String.class);
+        return "BusinessService called its own /service_info endpoint and got "+result;
     }
 
 }

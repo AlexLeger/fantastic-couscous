@@ -27,4 +27,10 @@ public class BusinessController {
         return businessService.performBusinessOperation();
     }
 
+    @GetMapping(value = "/call_myself",
+            produces = { "application/json" })
+    public String getHealthInfo() {
+        return businessService.getServiceInfo();
+    }
+
 }

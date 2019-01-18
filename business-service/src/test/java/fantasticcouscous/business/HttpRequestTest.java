@@ -11,9 +11,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /* This test starts the whole application and pretends to send an HTTP request (using restTemplate ?) then asserts the response */
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment= WebEnvironment.RANDOM_PORT)
+//TestRestTemplate is only auto-configured when @SpringBootTest has been configured with a webEnvironment that means it starts the web container and listens for HTTP requests
+//https://stackoverflow.com/questions/39213531/spring-boot-test-unable-to-inject-testresttemplate-and-mockmvc
+//Otherwise you get error saying No qualifying bean of type 'org.springframework.boot.test.web.client.TestRestTemplate'
 public class HttpRequestTest {
-
 
     @LocalServerPort
     private int port;
@@ -25,24 +27,23 @@ public class HttpRequestTest {
     @Autowired
     private TestRestTemplate restTemplate; //TestRestTemplate is provided by SpringBoot, we just have to autowire it.
 
-
     @Test
-    public void businessServiceShouldReturnServiceInfo() throws Exception {
+    public void service_infoEndpointShouldReturnAppName() throws Exception {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/service_info/",
                 String.class)).contains("This is business-service");
     }
 
-    /*@Test
-    public void businessServiceShouldReturnBusinessInfo() throws Exception {
+    @Test
+    public void businessEndpointShouldReturnBusinessOp() throws Exception {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/" + endpoint,
-                String.class)).contains("{\"login\":\"jmcclane\",\"firstName\":\"John\"}");
+                String.class)).contains("Business operation is performed. Retrieved data for user : UserData{login='hmankell', firstName='Henning'}");
     }
 
-    public void businessServiceShouldReturnBusinessInfo() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/" + endpoint,
-                String.class)).contains("success");
-    }*/
 
-
+    @Test
+    public void call_myselfEndpointShouldReturnAppName() throws Exception {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/service_info/",
+                String.class)).contains("This is business-service");
+    }
 
 }

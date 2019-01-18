@@ -50,7 +50,7 @@ public class HttpRequestTest {
 
     @Test
     public void setUserRepositoryShouldBeInitWithUsers(){
-        log.info("userRepository contains "+userRepository.count()+ " users");
+        log.info("userRepository contains "+userRepository.count()+ " users"); //TODO Find out why this isn't failing (as UserDataInit component should be completed)
         assertThat(userRepository.count()).isEqualTo(2);
     }
 
