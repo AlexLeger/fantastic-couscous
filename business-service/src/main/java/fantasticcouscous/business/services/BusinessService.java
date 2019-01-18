@@ -1,16 +1,21 @@
 package fantasticcouscous.business.services;
 
 import fantasticcouscous.business.BusinessApplication;
-import fantasticcouscous.business.foreign.Quote;
 import fantasticcouscous.business.foreign.UserData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Component
+import static java.util.Objects.isNull;
+
+@Service
 public class BusinessService {
+
+    private RestTemplate restTemplate = new RestTemplate();
 
     private static final Logger log = LoggerFactory.getLogger(BusinessApplication.class);
 
@@ -20,15 +25,24 @@ public class BusinessService {
     @Value("${user-service.port}")
     private String userServicePort;
 
-    private RestTemplate restTemplate;
+    @Value("${server.port}")
+    private int port;
 
     public String performBusinessOperation(){
-        /*log.info("Retrieving user data from : "+"localhost:"+userServicePort+"/user/jmcclane");
+        if(isNull(this.restTemplate)) {
+            log.info("Rest template is null !!!!!!!!");
+        }
+        String result = this.restTemplate.getForObject("http://localhost:" + port + "/service_info/",
+                String.class);
+        return result;
+    }
+
+
+    public String retrieveUserData(){
+        log.info("Retrieving user data from : "+"localhost:"+userServicePort+"/user/jmcclane");
         UserData userData = restTemplate.getForObject("localhost:"+userServicePort+"/user/jmcclane", UserData.class);
         log.info("Retrieved user data  : "+userData.toString());
-        return "Business operation is performed. Retrieved data for user : " + userData.toString();*/
-        Quote quote = restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
-        return "Business operation is performed. Retrieved quote : "+quote.toString();
+        return "Business operation is performed. Retrieved data for user : " + userData.toString();
     }
 
 }
