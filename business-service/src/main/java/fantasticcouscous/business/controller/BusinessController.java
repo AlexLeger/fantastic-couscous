@@ -1,11 +1,11 @@
 package fantasticcouscous.business.controller;
 
+import fantasticcouscous.business.services.BusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import fantasticcouscous.business.services.BusinessService;
 
 @RestController
 public class BusinessController {
@@ -26,12 +26,6 @@ public class BusinessController {
             produces = { "application/json" })
     public String getBusinessInfo(@PathVariable("login") String login) {
         return businessService.performBusinessOperation(login);
-    }
-
-    @GetMapping(value = "/call_myself",
-            produces = { "application/json" })
-    public String getHealthInfo() {
-        return businessService.getServiceInfo();
     }
 
 }
