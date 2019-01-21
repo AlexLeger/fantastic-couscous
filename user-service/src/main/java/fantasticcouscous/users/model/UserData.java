@@ -9,9 +9,6 @@ public class UserData {
     @Id
     private String login;
     private String firstName;
-    //private String lastName;
-    //private Set<String> groupSet;
-
 
     protected UserData() {
     }

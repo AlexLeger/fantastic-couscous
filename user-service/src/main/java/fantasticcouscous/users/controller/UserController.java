@@ -28,7 +28,7 @@ public class UserController {
     @GetMapping(value = "/user/{login}",
             produces = { "application/json" })
     public UserData getUserInfo(@PathVariable("login") String login) {
-        log.info("getUserInfo was called for login "+login);
+        log.info("getUserInfo was called for login {}",login);
         return userRepository.findOneByLogin(login);
     }
 
