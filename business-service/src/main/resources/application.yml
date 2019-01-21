@@ -1,6 +1,3 @@
-spring:
-  application:
-    name: business-service
 server:
   port: 2000
 user-service:

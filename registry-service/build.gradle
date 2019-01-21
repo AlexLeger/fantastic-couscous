@@ -16,22 +16,11 @@ apply plugin: 'org.springframework.boot' // Changed from 'spring-boot' after swi
 apply plugin: 'io.spring.dependency-management'
 
 repositories {
-    jcenter()
-    mavenLocal()
     mavenCentral()
-    maven { url "https://repo1.maven.org/maven2" }
-    maven { url "https://repo.spring.io/release" }
-    maven { url "https://repo.spring.io/snapshot" }
-    maven { url "https://repo.spring.io/milestone" }
-    maven { url "https://repo.spring.io/libs-snapshot" }
-    maven { url "https://repo.spring.io/libs-milestone" }
-    maven { url "https://maven.eveoh.nl/content/repositories/releases" }
-    maven { url "https://artifacts.elastic.co/maven/"}
-    maven { url "https://plugins.gradle.org/m2/" }
 }
 
 bootJar {
-    baseName = 'user-service'
+    baseName = 'registry-service'
     version =  '0.0.1-SNAPSHOT'
 }
 
@@ -40,24 +29,22 @@ targetCompatibility = 1.8
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Greenwich.RC2'
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.SR2'
     }
 }
 
+//Changed version to match OpFab because hadthe following message :
+//The bean 'dataSource', defined in BeanDefinition defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class], could not be registered.
+//https://github.com/spring-cloud/spring-cloud-config/issues/1142
+
 dependencies {
-    compile (
-            'org.springframework.boot:spring-boot-starter-web:2.1.2.RELEASE',
-            'org.springframework.boot:spring-boot-starter-data-jpa:2.1.2.RELEASE',
-            'com.h2database:h2:1.4.197', //TODO Find out whether it could be in runtime only (as stated in other guides)
-            'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    )
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server')
     testCompile(
             'org.junit.jupiter:junit-jupiter-api:5.3.1',
             'org.junit.jupiter:junit-jupiter-engine:5.3.1',
             'org.junit.platform:junit-platform-gradle-plugin:1.2.0',
-            'org.springframework.boot:spring-boot-starter-test:2.1.2.RELEASE'
+            'org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE'
     )
-
 }
 
 test {

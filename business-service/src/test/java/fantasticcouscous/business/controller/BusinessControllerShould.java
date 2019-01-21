@@ -32,8 +32,9 @@ class BusinessControllerShould {
 
     @Test
     void shouldReturnBusiness() throws Exception {
-        when(mockBusinessService.performBusinessOperation()).thenReturn("Business operation is performed."); //Set expectations for mock business service
-        this.mockMvc.perform(get("/business")).andDo(print()).andExpect(status().isOk())
+        String login = "someLogin";
+        when(mockBusinessService.performBusinessOperation(login)).thenReturn("Business operation is performed."); //Set expectations for mock business service
+        this.mockMvc.perform(get("/business/"+login)).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Business operation is performed.")));
     }
 

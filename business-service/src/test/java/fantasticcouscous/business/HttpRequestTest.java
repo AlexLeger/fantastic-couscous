@@ -35,10 +35,10 @@ public class HttpRequestTest {
 
     @Test
     public void businessEndpointShouldReturnBusinessOp() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/" + endpoint,
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/" + endpoint + "/hmankell",
                 String.class)).contains("Business operation is performed. Retrieved data for user : UserData{login='hmankell', firstName='Henning'}");
     }
-
+    //Fails if user-service isn't available
 
     @Test
     public void call_myselfEndpointShouldReturnAppName() throws Exception {
