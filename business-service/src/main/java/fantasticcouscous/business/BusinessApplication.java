@@ -19,7 +19,6 @@ public class BusinessApplication {
     public static void main(String[] args) {
         SpringApplication.run(BusinessApplication.class, args);
     }
-
     //https://spring.io/guides/gs/spring-boot/
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
