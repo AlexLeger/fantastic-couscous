@@ -2,11 +2,10 @@ package fantasticcouscous.users;
 
 import fantasticcouscous.users.model.UserData;
 import fantasticcouscous.users.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -18,10 +17,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /* This test starts the whole application and pretends to send an HTTP request (using restTemplate ?) then asserts the response */
 
 //@RunWith(SpringRunner.class)
+@Slf4j
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class HttpRequestTest {
-
-    private static final Logger log = LoggerFactory.getLogger(UserApplication.class);
 
     @LocalServerPort
     private int port;

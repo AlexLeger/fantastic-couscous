@@ -1,21 +1,17 @@
 package fantasticcouscous.users.controller;
 
-import fantasticcouscous.users.UserApplication;
 import fantasticcouscous.users.model.UserData;
 import fantasticcouscous.users.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-
+@Slf4j
 @RestController
 public class UserController {
-
-    private static final Logger log = LoggerFactory.getLogger(UserApplication.class);
 
     @Value("${spring.application.name}")
     private String applicationName;
@@ -39,3 +35,9 @@ public class UserController {
     }
 
 }
+
+/* When using Lombok, to build or run tests in intelliJ we need :
+Intellij Idea -> Preferences -> Build, Execution, Deployment -> Compiler -> Annotation Processors,
+check the checkbox of "Enable annotation processing".
+File -> Other Settings -> Default Settings -> Build, Execution, Deployment -> Compiler -> Annotation Processors,
+check the checkbox of "Enable annotation processing".*/

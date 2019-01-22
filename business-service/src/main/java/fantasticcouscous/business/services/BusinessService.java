@@ -1,10 +1,8 @@
 package fantasticcouscous.business.services;
 
-import fantasticcouscous.business.BusinessApplication;
 import fantasticcouscous.business.UserServiceProxy;
 import fantasticcouscous.business.foreign.UserData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
@@ -12,12 +10,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @EnableCaching
+@Slf4j
 public class BusinessService {
 
     @Autowired
     UserServiceProxy userServiceProxy;
-
-    private static final Logger log = LoggerFactory.getLogger(BusinessApplication.class);
 
     /* In the future, this class will provide the service depending on the calling user's permissions.
     For now it will just call the user service to get the user's information. */
