@@ -63,7 +63,7 @@ https://junit.org/junit5/docs/current/user-guide/#dependency-metadata
 https://www.baeldung.com/junit-5-migration
 */
 
-//Added to fix error message in IntelliJ after importing changes : Task 'wrapper' not found in project ':user-service'.
+//Added to fix error message in IntelliJ after importing changes : Task 'wrapper' not found in project ':user-services'.
 //TODO : See if really needed since we don't want gradle wrapper in every child project ? Or do we ?
 task wrapper(type: Wrapper) {
     gradleVersion = '4.6'
