@@ -19,7 +19,7 @@ public class BusinessController {
     @GetMapping(value = "/service_info",
             produces = { "application/json" })
     public String getServiceInfo() {
-        return "This is "+applicationName;
+        return "{\"applicationName\" : \""+applicationName+"\"}";
     }
 
     @GetMapping(value = "/business/{login}",
