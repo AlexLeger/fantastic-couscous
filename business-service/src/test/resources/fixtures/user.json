@@ -1,0 +1,14 @@
+[
+  {
+    "login": "jmcclane",
+    "firstName": "John"
+  },
+  {
+    "login": "hgruber",
+    "firstName": "Hans"
+  },
+  {
+    "login": "sgruber",
+    "firstName": "Simon"
+  }
+]

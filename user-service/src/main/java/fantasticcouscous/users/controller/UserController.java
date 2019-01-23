@@ -31,7 +31,7 @@ public class UserController {
     @GetMapping(value = "/service_info",
             produces = { "application/json" })
     public String getServiceInfo() {
-        return "This is "+applicationName;
+        return "{\"applicationName\" : \""+applicationName+"\"}";
     }
 
 }
