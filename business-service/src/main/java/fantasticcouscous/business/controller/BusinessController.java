@@ -16,6 +16,10 @@ public class BusinessController {
     @Autowired
     private BusinessService businessService;
 
+    public BusinessController(BusinessService businessService) {
+        this.businessService = businessService;
+    }
+
     @GetMapping(value = "/service_info",
             produces = { "application/json" })
     public String getServiceInfo() {
