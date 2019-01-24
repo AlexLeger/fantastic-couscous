@@ -7,7 +7,7 @@ import feign.FeignException;
 import feign.Response;
 import feign.codec.DecodeException;
 import feign.codec.Decoder;
-import feign.gson.GsonDecoder;
+import feign.jackson.JacksonDecoder;
 import feign.mock.HttpMethod;
 import feign.mock.MockClient;
 import feign.mock.MockTarget;
@@ -59,7 +59,8 @@ public class TestApplication {
 
         //Build Feign with MockClient
         UserServiceProxy mockUserServiceProxy = Feign.builder()
-                .decoder(new AssertionDecoder(new GsonDecoder()))
+                .decoder(new AssertionDecoder(new JacksonDecoder()))
+                //If removed we get feign.codec.DecodeException: class fantasticcouscous.business.foreign.UserData is not a type supported by this decoder.
                 .client(mockClient)
                 .contract(new SpringMvcContract())
                 /* Got : java.lang.IllegalStateException: Method getServiceInfo not annotated with HTTP method type (ex. GET, POST)

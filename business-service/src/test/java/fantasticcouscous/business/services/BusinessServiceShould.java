@@ -9,12 +9,10 @@ import feign.codec.Decoder;
 import feign.mock.HttpMethod;
 import feign.mock.MockClient;
 import lombok.extern.slf4j.Slf4j;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -31,25 +29,6 @@ public class BusinessServiceShould {
 
     @Autowired
     MockClient mockClient;
-
-    //TODO Find out what the AssertionDecoder from the example is for (try leaving it out)
-    class AssertionDecoder implements Decoder {
-
-        private final Decoder delegate;
-
-        public AssertionDecoder(Decoder delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        public Object decode(Response response, Type type)
-                throws IOException, DecodeException, FeignException {
-            //assertThat(response.request(), notNullValue()); //import static org.hamcrest.Matchers.
-            assertThat(response.request()).isNotNull(); //TODO NotNull vs isNotNull
-            return delegate.decode(response, type);
-        }
-
-    }
 
     @BeforeEach
     public void setup(){
