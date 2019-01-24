@@ -34,7 +34,6 @@ public class TestApplication {
     }
 
     //TODO Find out what the AssertionDecoder from the example is for (try leaving it out).
-    //TODO If it turns out it really is necessary, switch it to Jackson instead of Gson
     class AssertionDecoder implements Decoder {
 
         private final Decoder delegate;

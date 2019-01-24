@@ -16,10 +16,6 @@ public class BusinessService {
     @Autowired
     UserServiceProxy userServiceProxy;
 
-    public BusinessService(UserServiceProxy userServiceProxy) { //Added for injection in BusinessServiceShould //TODO Maybe it's not how it should be done
-        this.userServiceProxy = userServiceProxy;
-    }
-
     /* In the future, this class will provide the services depending on the calling user's permissions.
     For now it will just call the user service to get the user's information. */
 
