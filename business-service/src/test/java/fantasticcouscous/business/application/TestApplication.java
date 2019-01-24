@@ -1,6 +1,7 @@
-package fantasticcouscous.business;
+package fantasticcouscous.business.application;
 
-import fantasticcouscous.business.services.BusinessServiceShould;
+import fantasticcouscous.business.UserServiceProxy;
+import fantasticcouscous.business.services.BusinessService;
 import feign.Feign;
 import feign.FeignException;
 import feign.Response;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
 import java.io.IOException;
@@ -23,6 +25,7 @@ import java.lang.reflect.Type;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootApplication
+@Import({BusinessService.class})
 public class TestApplication {
 
     public static void main(String[] args) {

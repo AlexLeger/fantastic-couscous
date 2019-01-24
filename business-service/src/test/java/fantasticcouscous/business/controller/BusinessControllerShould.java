@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 class BusinessControllerShould {
 
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -27,7 +26,7 @@ class BusinessControllerShould {
     @Test
     void shouldReturnServiceInfo() throws Exception {
         this.mockMvc.perform(get("/service_info")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("This is business-service")));
+                .andExpect(content().string(containsString("{\"applicationName\" : \"business-service\"}")));
     }
 
     @Test

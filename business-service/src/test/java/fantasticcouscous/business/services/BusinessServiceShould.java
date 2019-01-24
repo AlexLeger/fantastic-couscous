@@ -1,6 +1,6 @@
 package fantasticcouscous.business.services;
 
-import fantasticcouscous.business.TestApplication;
+import fantasticcouscous.business.application.TestApplication;
 import feign.FeignException;
 import feign.Request;
 import feign.Response;
@@ -10,7 +10,6 @@ import feign.mock.HttpMethod;
 import feign.mock.MockClient;
 import lombok.extern.slf4j.Slf4j;
 
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasSize;
 
 @Slf4j
 @SpringBootTest(classes = TestApplication.class)
