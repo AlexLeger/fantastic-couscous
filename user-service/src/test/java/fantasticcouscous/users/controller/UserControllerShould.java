@@ -58,7 +58,7 @@ public class UserControllerShould {
     @Test
     public void shouldReturnServiceInfo() throws Exception {
         this.mockMvc.perform(get("/service_info")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("This is user-service")));
+                .andExpect(content().string(containsString("{\"applicationName\" : \"user-service\"}")));
     }
 
     @Test
