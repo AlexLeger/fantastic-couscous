@@ -79,7 +79,7 @@ https://junit.org/junit5/docs/current/user-guide/#dependency-metadata
 https://www.baeldung.com/junit-5-migration
 */
 
-//TODO Find out why 'org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE' brings in junit:junit:4.12 (vintage blabla error in IntelliJ)
+//TODOMinor Find out why 'org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE' brings in junit:junit:4.12 (vintage blabla error in IntelliJ)
 //Added to fix error message in IntelliJ after importing changes : Task 'wrapper' not found in project ':user-service'.
 task wrapper(type: Wrapper) {
     gradleVersion = '4.6'

@@ -48,7 +48,7 @@ dependencies {
     compile (
             'org.springframework.boot:spring-boot-starter-web:2.1.2.RELEASE',
             'org.springframework.boot:spring-boot-starter-data-jpa:2.1.2.RELEASE',
-            'com.h2database:h2:1.4.197', //TODO Find out whether it could be in runtime only (as stated in other guides)
+            'com.h2database:h2:1.4.197', //TODOMinor Find out whether it could be in runtime only (as stated in other guides)
             'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client',
             'org.projectlombok:lombok:1.18.2',
             'org.slf4j:slf4j-api:1.7.25'
@@ -77,7 +77,7 @@ https://www.baeldung.com/junit-5-migration
 */
 
 //Added to fix error message in IntelliJ after importing changes : Task 'wrapper' not found in project ':user-service'.
-//TODO : See if really needed since we don't want gradle wrapper in every child project ? Or do we ?
+//TODOMinor : See if really needed since we don't want gradle wrapper in every child project ? Or do we ?
 task wrapper(type: Wrapper) {
     gradleVersion = '4.6'
 }
