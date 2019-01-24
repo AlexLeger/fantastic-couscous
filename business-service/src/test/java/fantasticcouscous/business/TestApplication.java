@@ -10,18 +10,15 @@ import feign.gson.GsonDecoder;
 import feign.mock.HttpMethod;
 import feign.mock.MockClient;
 import feign.mock.MockTarget;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,7 +30,8 @@ public class TestApplication {
         assert (ctx != null);
     }
 
-    //TODO Find out what the AssertionDecoder from the example is for (try leaving it out)
+    //TODO Find out what the AssertionDecoder from the example is for (try leaving it out).
+    //TODO If it turns out it really is necessary, switch it to Jackson instead of Gson
     class AssertionDecoder implements Decoder {
 
         private final Decoder delegate;
@@ -54,16 +52,8 @@ public class TestApplication {
 
     @Bean
     @Primary
-    public UserServiceProxy mockUserServiceProxy() {
+    public UserServiceProxy mockUserServiceProxy(MockClient mockClient) {
 
-        //Create MockClient and set behaviour (which requests are accepted and with which response)
-        MockClient mockClient = new MockClient();
-        mockClient = mockClient
-                .ok(HttpMethod.GET, "/user/jmcclane", "{\"login\": \"jmcclane\", \"firstName\": \"John\" }")
-                .ok(HttpMethod.GET, "/user/hgruber", "{\"login\": \"hgruber\", \"firstName\": \"Hans\" }")
-                .ok(HttpMethod.GET, "/user/hgruber", "{\"login\": \"sgruber\", \"firstName\": \"Simon\" }")
-                .ok(HttpMethod.GET, "/service_info", "{\"applicationName\" : \"" + "user-service" + "\"}");
-        //TODO Move MockClient behaviour configuration to test setup
         //Build Feign with MockClient
         UserServiceProxy mockUserServiceProxy = Feign.builder()
                 .decoder(new AssertionDecoder(new GsonDecoder()))
@@ -75,6 +65,20 @@ public class TestApplication {
         //TODO Look at other examples in MockClientTest
 
         return mockUserServiceProxy;
+    }
+
+    @Bean
+    public MockClient mockClient(){
+        //Create MockClient and set behaviour (which requests are accepted and with which response)
+        MockClient mockClient = new MockClient();
+        mockClient = mockClient
+                .ok(HttpMethod.GET, "/user/jmcclane", "{\"login\": \"jmcclane\", \"firstName\": \"John\" }")
+                .ok(HttpMethod.GET, "/user/hgruber", "{\"login\": \"hgruber\", \"firstName\": \"Hans\" }")
+                .ok(HttpMethod.GET, "/user/hgruber", "{\"login\": \"sgruber\", \"firstName\": \"Simon\" }")
+                .ok(HttpMethod.GET, "/service_info", "{\"applicationName\" : \"" + "user-service" + "\"}");
+        //TODO Move MockClient behaviour configuration to test setup
+
+        return mockClient;
     }
 
 }

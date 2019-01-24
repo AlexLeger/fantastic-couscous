@@ -1,16 +1,16 @@
 package fantasticcouscous.business.services;
 
-import com.netflix.discovery.converters.Auto;
 import fantasticcouscous.business.TestApplication;
-import fantasticcouscous.business.UserServiceProxy;
-import feign.Feign;
 import feign.FeignException;
 import feign.Request;
 import feign.Response;
 import feign.codec.DecodeException;
 import feign.codec.Decoder;
+import feign.mock.HttpMethod;
+import feign.mock.MockClient;
 import lombok.extern.slf4j.Slf4j;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +30,9 @@ public class BusinessServiceShould {
 
     @Autowired
     BusinessService businessService;
+
+    @Autowired
+    MockClient mockClient;
 
     //TODO Find out what the AssertionDecoder from the example is for (try leaving it out)
     class AssertionDecoder implements Decoder {
@@ -66,7 +69,7 @@ public class BusinessServiceShould {
     }
 
 
-    /*@Test
+    @Test
     public void hitCache(){
         String login ="jmcclane";
 
@@ -77,9 +80,9 @@ public class BusinessServiceShould {
         String result2 = businessService.performBusinessOperation(login);
         assertThat(result1).isEqualTo(result2);
 
-        List<Request> results = businessService.userServiceProxy.verifyTimes(HttpMethod.GET, "/user/"+login, 1); //TODO Understand why the expected number of times has to be set twice
+        List<Request> results = mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 1); //TODO Understand why the expected number of times has to be checked twice (once in verify, once in results size)
         log.info("Test cache : {}",results.toString());
-        MatcherAssert.assertThat(results, hasSize(1));
+        assertThat(results).hasSize(1);
         mockClient.verifyStatus();
-    }*/
+    }
 }
