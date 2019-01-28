@@ -25,7 +25,7 @@ import java.lang.reflect.Type;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootApplication
-@Import({BusinessService.class})
+@Import({BusinessService.class}) //TODO Get rid of it by defining a proper config class
 public class TestApplication {
 
     public static void main(String[] args) {

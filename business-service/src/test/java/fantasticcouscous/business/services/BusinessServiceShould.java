@@ -5,11 +5,11 @@ import feign.Request;
 import feign.mock.HttpMethod;
 import feign.mock.MockClient;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 
@@ -25,22 +25,41 @@ public class BusinessServiceShould {
     @Autowired
     MockClient mockClient;
 
+
     @BeforeEach
     public void setup(){
-
+        businessService.clearUserCache();
+        mockClient.resetRequests();
     }
 
     @Test
-    public void hitMock(){
-    String login ="jmcclane";
+    public void objectsUnderTestAreNotNull(){
+        assertThat(businessService).isNotNull();
+        assertThat(mockClient).isNotNull();
+    }
+
+    @Test
+    public void mockClientRequestsAreResetBeforeEachTest(){
+        assertThat(mockClient.verifyTimes(HttpMethod.GET, "/users/"+"jmmclane",0)).isEmpty();
+    }
+
+    @Test
+    public void shouldReturnCorrectUserData(){
+        String login ="jmcclane";
         String result = businessService.performBusinessOperation(login);
         assertThat(result).isNotNull();
         assertThat(result).contains(login);
     }
 
+    @Test
+    public void shouldNotHitCacheForFirstCall(){
+        String login ="jmcclane";
+        businessService.performBusinessOperation(login);
+        mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 1);
+    }
 
     @Test
-    public void hitCache(){
+    public void shouldHitCacheAndReturnSameDataForSecondCall(){
         String login ="jmcclane";
 
         //First call
@@ -54,20 +73,6 @@ public class BusinessServiceShould {
         log.info("Test cache : {}",results.toString());
         assertThat(results).hasSize(1);
         //mockClient.verifyStatus(); //TODO find out what that's for
-    }
-
-    @Test
-    public void firstCallDoesntHitCache(){
-        String login ="jmcclane";
-        businessService.performBusinessOperation(login);
-        List<Request> results = mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 1);
-        assertThat(results).hasSize(1);
-
-        String login2 ="hgruber";
-        businessService.performBusinessOperation(login2);
-        results = mockClient.verifyTimes(HttpMethod.GET, "/user/"+login2, 1);
-        assertThat(results).hasSize(1);
-
     }
 
 }

@@ -4,6 +4,7 @@ import fantasticcouscous.business.UserServiceProxy;
 import fantasticcouscous.business.foreign.UserData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,11 @@ public class BusinessService {
         UserData userData = userServiceProxy.getUserInfo(login);
         log.info("Retrieved user data  : {}",userData);
         return "Business operation is performed. Retrieved data for user : " + userData.toString();
+    }
+
+    @CacheEvict(value = "user", allEntries = true)
+    public void clearUserCache(){
+
     }
 
 }
