@@ -9,8 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 @SpringBootTest(classes = TestApplication.class)
 public class BusinessServiceShould {
+
 
     @Autowired
     BusinessService businessService;
@@ -69,11 +68,65 @@ public class BusinessServiceShould {
         String result2 = businessService.performBusinessOperation(login);
         assertThat(result1).isEqualTo(result2);
 
-        List<Request> results = mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 1); //TODO Understand why the expected number of times has to be checked twice (once in verify, once in results size)
-        log.info("Test cache : {}",results.toString());
-        assertThat(results).hasSize(1);
+        List<Request> results = mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 1);
         //mockClient.verifyStatus(); //TODO find out what that's for
     }
+
+    @Test
+    public void cacheShouldExpireAfter() throws InterruptedException {
+
+        long ttl = 11; //Time to live in seconds
+
+        String login ="jmcclane";
+
+        //First call to populate cache
+        businessService.performBusinessOperation(login);
+
+        //Wait for cache to expire
+        Thread.sleep(ttl*1000);
+
+        //Second call should call actual method again
+        businessService.performBusinessOperation(login);
+
+        mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 2);
+
+    }
+
+    @Test
+    public void cacheCanBeCleared(){
+        String login ="jmcclane";
+
+        //First call
+        businessService.performBusinessOperation(login);
+
+        //Clear cache
+        businessService.clearUserCache();
+
+        //Second call
+        businessService.performBusinessOperation(login);
+
+        mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 2);
+    }
+
+    /*
+    @Test
+    public void cacheShouldNotStoreNullValues(){
+        String login ="userthatdoesntexist";
+
+        //First call should return null
+        String result = businessService.performBusinessOperation(login);
+        assertThat(result).isNull();
+
+        //Second call
+        businessService.performBusinessOperation(login);
+
+        //Mock client should be called twice because null result doesn't get cached
+        mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 2);
+
+
+    }
+*/
+
 
 }
 

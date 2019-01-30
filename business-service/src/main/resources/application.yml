@@ -2,3 +2,9 @@ server:
   port: 2000
 user-service:
   port: 2002
+
+spring:
+  cache:
+    cache-names: user
+    caffeine:
+      spec: expireAfterWrite=10s
