@@ -15,7 +15,11 @@ public interface UserRepository extends CrudRepository<UserData, String> { // Wa
 
     List<UserData> findByFirstName(String firstName);
 
+    List<UserData> findAll();
+
     UserData findOneByLogin(String login);
+
+    UserData save(UserData user);
 
 }
 

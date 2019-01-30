@@ -5,9 +5,10 @@ import fantasticcouscous.users.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.jws.soap.SOAPBinding;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -32,6 +33,30 @@ public class UserController {
             produces = { "application/json" })
     public String getServiceInfo() {
         return "{\"applicationName\" : \""+applicationName+"\"}";
+    }
+
+    @GetMapping(value = "/user",
+            produces = { "application/json" })
+    public List<UserData> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @PutMapping(value = "/user/{login}",
+            produces = { "application/json" })
+    public UserData updateUserInfo(@PathVariable("login") String login, @RequestBody UserData userData){
+        log.info("Update was called for {}",login);
+        UserData result = userRepository.save(userData);
+        log.info("Result : {}",result);
+        return userData;
+    }
+
+    @PostMapping(value = "/user",
+            produces = { "application/json" })
+    public UserData createUserInfo(@RequestBody UserData userData){
+        log.info("Create was called with data {}", userData);
+        UserData result = userRepository.save(userData);
+        log.info("Result : {}",result);
+        return userData;
     }
 
 }

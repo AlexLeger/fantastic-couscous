@@ -11,8 +11,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.MultiValueMap;
+
+import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /* This test starts the whole application and pretends to send an HTTP request (using restTemplate ?) then asserts the response */
 
@@ -68,6 +79,43 @@ public class HttpRequestTest {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/" + endpoint + "/" + login,
                 String.class)).contains("{\"login\":\"sgruber\",\"firstName\":\"Simon\"}");
     }
+
+    @Test
+    public void userServiceShouldUpdateUserData() throws Exception {
+        String login = "jmcclane";
+        UserData updatedUser = new UserData("jmcclane", "Holly");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+        HttpEntity<UserData> update = new HttpEntity<>(updatedUser,httpHeaders);
+        this.restTemplate.put("http://localhost:" + port + "/" + endpoint + "/" + login,update);
+
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/" + endpoint + "/" + login,
+                String.class)).contains("{\"login\":\"jmcclane\",\"firstName\":\"Holly\"}");
+
+        //TODO Make sure that user count hasn't changed
+    }
+
+    @Test
+    public void userServiceShouldCreateUserData() throws Exception {
+        UserData newUser = new UserData("hgruber", "Hans");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+        HttpEntity<UserData> update = new HttpEntity<>(newUser,httpHeaders);
+        this.restTemplate.postForLocation("http://localhost:" + port + "/" + endpoint,update);
+
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/" + endpoint + "/" + newUser.getLogin(),
+                String.class)).contains("{\"login\":\"hgruber\",\"firstName\":\"Hans\"}");
+
+        //TODO Make sure that user count has increased
+    }
+
+    @Test
+    public void userServiceShouldReturnAllUsers() throws Exception {
+        //TODO
+    }
+
 
     @AfterEach
     public void clean() { userRepository.deleteAll(); }
