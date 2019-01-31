@@ -46,6 +46,7 @@ public class UserController {
     public UserData updateUserInfo(@PathVariable("login") String login, @RequestBody UserData userData){
         log.info("Update was called for {}",login);
         UserData result = userRepository.save(userData);
+
         log.info("Result : {}",result);
         return userData;
     }

@@ -51,7 +51,8 @@ dependencies {
             'com.h2database:h2:1.4.197', //TODOMinor Find out whether it could be in runtime only (as stated in other guides)
             'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client',
             'org.projectlombok:lombok:1.18.2',
-            'org.slf4j:slf4j-api:1.7.25'
+            'org.slf4j:slf4j-api:1.7.25',
+            'org.springframework.boot:spring-boot-starter-amqp:2.1.2.RELEASE'
     )
     testCompile(
             'org.junit.jupiter:junit-jupiter-api:5.3.1',
