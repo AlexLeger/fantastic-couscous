@@ -1,6 +1,7 @@
 package fantasticcouscous.business.services;
 
 import fantasticcouscous.business.UserServiceProxy;
+import fantasticcouscous.business.config.UserUpdateReceiver;
 import fantasticcouscous.business.foreign.UserData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,15 @@ public class BusinessService {
         return "Business operation is performed. Retrieved data for user : " + userData.toString();
     }
 
-    @CacheEvict(value = "user", allEntries = true)
-    public void clearUserCache(){
+    @CacheEvict(value = "user", key = "{#login}")
+    public void clearUserCache(String login){
+        log.info("Cache was cleared for {]"+login);
+    }
 
+
+    @CacheEvict(value = "user", allEntries = true)
+    public void clearAllUserCache(){
+        log.info("Cache was cleared for all users");
     }
 
 }

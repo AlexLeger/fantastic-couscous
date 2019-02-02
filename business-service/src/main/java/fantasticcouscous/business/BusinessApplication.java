@@ -19,13 +19,11 @@ public class BusinessApplication {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    //3rd commit
-
     public static void main(String[] args) {
         SpringApplication.run(BusinessApplication.class, args);
     }
     //https://spring.io/guides/gs/spring-boot/
-    @Bean
+    /* @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
 
@@ -39,4 +37,5 @@ public class BusinessApplication {
 
         };
     }
+    */
 }

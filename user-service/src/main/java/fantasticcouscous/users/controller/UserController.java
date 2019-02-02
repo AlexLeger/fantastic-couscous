@@ -4,15 +4,10 @@ import fantasticcouscous.users.config.UserUpdateSender;
 import fantasticcouscous.users.model.UserData;
 import fantasticcouscous.users.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Import;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 @Slf4j
@@ -27,10 +22,9 @@ public class UserController {
     /* "Autowired" can be replaced with constructor (tests OK). TODO: Find out the differences (if any) between the two options
      */
 
-    /* Replaces autowired UserUpdateSender */
-@Autowired
-UserUpdateSender userUpdateSender;
-    /* ************************* */
+    @Autowired
+    UserUpdateSender userUpdateSender;
+
 
     @GetMapping(value = "/user/{login}",
             produces = { "application/json" })
@@ -56,7 +50,7 @@ UserUpdateSender userUpdateSender;
     public UserData updateUserInfo(@PathVariable("login") String login, @RequestBody UserData userData){
         log.info("Update was called for {}",login);
         UserData result = userRepository.save(userData);
-        this.userUpdateSender.send();
+        this.userUpdateSender.send(login);
         log.info("Result : {}",result);
         return userData;
     }

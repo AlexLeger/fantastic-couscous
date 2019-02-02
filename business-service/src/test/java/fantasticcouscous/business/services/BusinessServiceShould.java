@@ -27,7 +27,7 @@ public class BusinessServiceShould {
 
     @BeforeEach
     public void setup(){
-        businessService.clearUserCache();
+        businessService.clearAllUserCache();
         mockClient.resetRequests();
     }
 
@@ -93,21 +93,44 @@ public class BusinessServiceShould {
     }
 
     @Test
-    public void cacheCanBeCleared(){
-        String login ="jmcclane";
+    public void cacheCanBeClearedForAllUsers(){
+        String login1 ="jmcclane";
+        String login2 ="hgruber";
 
         //First call
-        businessService.performBusinessOperation(login);
+        businessService.performBusinessOperation(login1);
+        businessService.performBusinessOperation(login2);
 
-        //Clear cache
-        businessService.clearUserCache();
+        //Clear cache for all users
+        businessService.clearAllUserCache();
 
         //Second call
-        businessService.performBusinessOperation(login);
+        businessService.performBusinessOperation(login1);
+        businessService.performBusinessOperation(login2);
 
-        mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 2);
+        mockClient.verifyTimes(HttpMethod.GET, "/user/"+login1, 2);
+        mockClient.verifyTimes(HttpMethod.GET, "/user/"+login2, 2);
     }
 
+    @Test
+    public void cacheCanBeClearedForOneUser(){
+        String login1 ="jmcclane"; //To be cleared
+        String login2 ="hgruber"; //To be kept
+
+        //First call
+        businessService.performBusinessOperation(login1);
+        businessService.performBusinessOperation(login2);
+
+        //Clear cache for login1 only
+        businessService.clearUserCache(login1);
+
+        //Second call
+        businessService.performBusinessOperation(login1);
+        businessService.performBusinessOperation(login2);
+
+        mockClient.verifyTimes(HttpMethod.GET, "/user/"+login1, 2);
+        mockClient.verifyTimes(HttpMethod.GET, "/user/"+login2, 1);
+    }
     /*
     @Test
     public void cacheShouldNotStoreNullValues(){

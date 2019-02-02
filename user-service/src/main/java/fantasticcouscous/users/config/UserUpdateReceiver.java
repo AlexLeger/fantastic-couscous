@@ -10,7 +10,7 @@ public class UserUpdateReceiver {
 
     @RabbitHandler
     public void receive(String in) {
-        log.info(" [x] Received '" + in + "'");
+        log.info(" [x] Received updated event  '" + in + "'");
     }
 
 }

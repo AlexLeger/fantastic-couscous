@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BusinessController {
 
-    //3rd commit
 
     @Value("${spring.application.name}")
     private String applicationName;
