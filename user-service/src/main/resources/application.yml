@@ -1,2 +1,6 @@
 server:
   port: 2002
+
+spring:
+  profiles:
+    active: update-user

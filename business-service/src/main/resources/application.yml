@@ -7,4 +7,4 @@ spring:
   cache:
     cache-names: user
     caffeine:
-      spec: expireAfterWrite=10s
+      spec: expireAfterWrite=3600s
