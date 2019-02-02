@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
@@ -14,17 +15,17 @@ import java.util.Arrays;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients //Without it we get No qualifying bean of type 'fantasticcouscous.business.UserServiceProxy' available
+@RemoteApplicationEventScan //We will need to tell Spring Cloud to scan our package for custom events. By default, Spring Cloud only scans the org.springframework.cloud.bus.event package. We can do this by adding the @RemoteApplicationEventScan to our Application class:
 public class BusinessApplication {
 
     @Value("${spring.application.name}")
     private String applicationName;
 
-    //3rd commit
-
     public static void main(String[] args) {
         SpringApplication.run(BusinessApplication.class, args);
     }
     //https://spring.io/guides/gs/spring-boot/
+    /*
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
@@ -39,4 +40,5 @@ public class BusinessApplication {
 
         };
     }
+    */
 }

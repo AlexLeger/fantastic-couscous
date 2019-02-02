@@ -52,6 +52,7 @@ dependencies {
             'com.h2database:h2:1.4.197',
             'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client',
             'org.springframework.cloud:spring-cloud-starter-openfeign',
+            'org.springframework.cloud:spring-cloud-starter-bus-amqp',
             'org.projectlombok:lombok:1.18.2',
             'org.slf4j:slf4j-api:1.7.25',
             'com.github.ben-manes.caffeine:caffeine:2.6.2'
