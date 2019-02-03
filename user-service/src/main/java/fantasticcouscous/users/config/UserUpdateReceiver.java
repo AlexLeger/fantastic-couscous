@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
-@RabbitListener(queues = "userupdate_queue")
+@RabbitListener(queues = "#{userUpdateQueue.name}")
 @Slf4j
 public class UserUpdateReceiver {
 

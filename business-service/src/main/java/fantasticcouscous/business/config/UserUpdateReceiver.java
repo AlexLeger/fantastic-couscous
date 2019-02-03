@@ -6,7 +6,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@RabbitListener(queues = "userupdate_queue")
+@RabbitListener(queues = "#{userUpdateQueue.name}")
 @Slf4j
 public class UserUpdateReceiver {
 
