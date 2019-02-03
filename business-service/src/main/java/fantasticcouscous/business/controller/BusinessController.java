@@ -33,4 +33,11 @@ public class BusinessController {
         return businessService.performBusinessOperation(login);
     }
 
+    @GetMapping(value = "/business_clear/{login}",
+            produces = { "application/json" })
+    public String clearBusinessInfo(@PathVariable("login") String login) {
+        businessService.clearUserCache(login);
+        return "Cache was cleared for "+login;
+    }
+
 }
