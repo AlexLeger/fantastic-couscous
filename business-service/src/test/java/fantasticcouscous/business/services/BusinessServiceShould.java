@@ -73,26 +73,6 @@ public class BusinessServiceShould {
     }
 
     @Test
-    public void cacheShouldExpireAfter() throws InterruptedException {
-
-        long ttl = 11; //Time to live in seconds
-
-        String login ="jmcclane";
-
-        //First call to populate cache
-        businessService.performBusinessOperation(login);
-
-        //Wait for cache to expire
-        Thread.sleep(ttl*1000);
-
-        //Second call should call actual method again
-        businessService.performBusinessOperation(login);
-
-        mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 2);
-
-    }
-
-    @Test
     public void cacheCanBeCleared(){
         String login ="jmcclane";
 
@@ -107,26 +87,6 @@ public class BusinessServiceShould {
 
         mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 2);
     }
-
-    /*
-    @Test
-    public void cacheShouldNotStoreNullValues(){
-        String login ="userthatdoesntexist";
-
-        //First call should return null
-        String result = businessService.performBusinessOperation(login);
-        assertThat(result).isNull();
-
-        //Second call
-        businessService.performBusinessOperation(login);
-
-        //Mock client should be called twice because null result doesn't get cached
-        mockClient.verifyTimes(HttpMethod.GET, "/user/"+login, 2);
-
-
-    }
-*/
-
 
 }
 

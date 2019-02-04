@@ -6,8 +6,6 @@ user-service:
 spring:
   cache:
     cache-names: user
-    caffeine:
-      spec: expireAfterWrite=3600s
   cloud:
     bus:
       trace:

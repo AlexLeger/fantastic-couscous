@@ -54,8 +54,7 @@ dependencies {
             'org.springframework.cloud:spring-cloud-starter-openfeign',
             'org.springframework.cloud:spring-cloud-starter-bus-amqp',
             'org.projectlombok:lombok:1.18.2',
-            'org.slf4j:slf4j-api:1.7.25',
-            'com.github.ben-manes.caffeine:caffeine:2.6.2'
+            'org.slf4j:slf4j-api:1.7.25'
     )
     testCompile(
             'org.junit.jupiter:junit-jupiter-api:5.3.1',
