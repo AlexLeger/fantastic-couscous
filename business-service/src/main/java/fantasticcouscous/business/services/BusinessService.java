@@ -28,7 +28,7 @@ public class BusinessService {
         return "Business operation is performed. Retrieved data for user : " + userData.toString();
     }
 
-    @CacheEvict(value = "user")
+    @CacheEvict(value = "user", key = "{#login}")
     public void clearCacheForUser(String login){
 
     }

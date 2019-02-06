@@ -32,9 +32,16 @@ public class BusinessController {
         return businessService.performBusinessOperation(login);
     }
 
+    @GetMapping(value = "/clear/{login}",
+            produces = { "application/json" })
+    public String clearBusinessUserCache(@PathVariable("login") String login) {
+        businessService.clearCacheForUser(login);
+        return "Cache was cleared for "+login;
+    }
+
     @EventListener
     public void handleUserUpdate(UpdatedUserEvent event) {
-        this.businessService.clearCacheForUser(event.getLogin());
+        businessService.clearCacheForUser(event.getLogin());
         log.info("Event was received for login "+event.getLogin()+
                 " with id "+event.getId()+
                 " by source "+event.getSource()+
