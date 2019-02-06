@@ -1,4 +1,4 @@
-package fantasticcouscous.business.config;
+package fantasticcouscous.users.config;
 
 import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
 import org.springframework.context.annotation.Configuration;

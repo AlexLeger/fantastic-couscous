@@ -27,7 +27,7 @@ public class BusinessServiceShould {
 
     @BeforeEach
     public void setup(){
-        businessService.clearUserCache();
+        businessService.clearCacheForAllUsers();
         mockClient.resetRequests();
     }
 
@@ -80,7 +80,7 @@ public class BusinessServiceShould {
         businessService.performBusinessOperation(login);
 
         //Clear cache
-        businessService.clearUserCache();
+        businessService.clearCacheForAllUsers();
 
         //Second call
         businessService.performBusinessOperation(login);

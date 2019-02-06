@@ -12,7 +12,6 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'org.springframework.boot' // Changed from 'spring-boot' after switching gradle plugin version in dependencies
 apply plugin: 'io.spring.dependency-management'
 
 repositories {
@@ -30,11 +29,6 @@ repositories {
     maven { url "https://plugins.gradle.org/m2/" }
 }
 
-bootJar {
-    baseName = 'business-service'
-    version =  '0.0.1-SNAPSHOT'
-}
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -46,24 +40,15 @@ dependencyManagement {
 
 dependencies {
     compile (
-            'org.springframework.boot:spring-boot-starter-web:2.1.2.RELEASE',
-            'org.springframework.boot:spring-boot-starter-data-jpa:2.1.2.RELEASE',
-            'org.springframework.boot:spring-boot-starter-cache:2.1.2.RELEASE',
-            'com.h2database:h2:1.4.197',
-            'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client',
-            'org.springframework.cloud:spring-cloud-starter-openfeign',
             'org.springframework.cloud:spring-cloud-starter-bus-amqp',
             'org.projectlombok:lombok:1.18.2',
-            'org.slf4j:slf4j-api:1.7.25',
-            project(':tools') //To share event definition
+            'org.slf4j:slf4j-api:1.7.25'
     )
     testCompile(
             'org.junit.jupiter:junit-jupiter-api:5.3.1',
             'org.junit.jupiter:junit-jupiter-engine:5.3.1',
             'org.junit.platform:junit-platform-gradle-plugin:1.2.0',
-            'org.springframework.boot:spring-boot-starter-test:2.1.2.RELEASE',
-            'io.github.openfeign:feign-mock:10.1.0',
-            'io.github.openfeign:feign-jackson:10.1.0'
+            'org.springframework.boot:spring-boot-starter-test:2.1.2.RELEASE'
     )
 
 }
@@ -82,8 +67,3 @@ https://junit.org/junit5/docs/current/user-guide/#dependency-metadata
 https://www.baeldung.com/junit-5-migration
 */
 
-//TODOMinor Find out why 'org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE' brings in junit:junit:4.12 (vintage blabla error in IntelliJ)
-//Added to fix error message in IntelliJ after importing changes : Task 'wrapper' not found in project ':user-service'.
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.6'
-}

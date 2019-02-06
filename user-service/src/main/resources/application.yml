@@ -1,14 +1,2 @@
 server:
   port: 2002
-spring:
-  application:
-    index: ${random.uuid} # this ensures that our applicationId is unique
-  rabbitmq:
-    host: localhost # http://localhost:15672 for management
-    port: 5672
-    username: guest
-    password: guest
-  cloud:
-    bus:
-      trace:
-        enabled: true

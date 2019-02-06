@@ -1,6 +1,6 @@
 package fantasticcouscous.users;
 
-import fantasticcouscous.users.listeners.UpdatedUserEventListener;
+import fantasticcouscous.users.controller.UserController;
 import fantasticcouscous.users.model.UserData;
 import fantasticcouscous.users.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -17,8 +18,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 /* This test starts the whole application and pretends to send an HTTP request (using restTemplate ?) then asserts the response */
 
@@ -38,7 +37,7 @@ public class HttpRequestTest {
     private UserRepository userRepository;
 
     @Autowired
-    private UpdatedUserEventListener updatedUserEventListener;
+    private UserController userController;
 
     @Autowired
     private TestRestTemplate restTemplate; //TestRestTemplate is provided by SpringBoot, we just have to autowire it.
@@ -119,7 +118,7 @@ public class HttpRequestTest {
         HttpEntity<UserData> update = new HttpEntity<>(updatedUser,httpHeaders);
         this.restTemplate.put("http://localhost:" + port + "/" + endpoint + "/" + login,update);
 
-        assertThat(this.updatedUserEventListener.getUpdatedUserList()).contains(login);
+        assertThat(this.userController.getUpdatedUserList()).contains(login);
     }
 
 

@@ -1,32 +1,36 @@
 package fantasticcouscous.users.controller;
 
-import fantasticcouscous.users.event.MyCustomRemoteEvent;
-import fantasticcouscous.users.event.UpdatedUserEvent;
+import fantasticcouscous.tools.events.UpdatedUserEvent;
 import fantasticcouscous.users.model.UserData;
 import fantasticcouscous.users.repository.UserRepository;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.cloud.bus.ServiceMatcher;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jws.soap.SOAPBinding;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @RestController
+@SpringBootConfiguration
+//@EnableAutoConfiguration //It's already done by SpringBootConfiguration
 public class UserController {
 
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @Autowired
-    private ApplicationContext applicationContext;
 
     @Autowired
-    public UserController(ApplicationContext context) {
-        this.applicationContext = context;
-    } //TODO Find out what that's for
+    private ServiceMatcher busServiceMatcher;
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     @Autowired
     private UserRepository userRepository;
@@ -59,9 +63,7 @@ public class UserController {
         UserData result = userRepository.save(userData);
 
         //Fire event to tell Business service to clear cache for this user
-        final String instanceUniqueId = applicationContext.getId(); // each service instance must have a unique context ID
-        final UpdatedUserEvent updatedUserEvent = new UpdatedUserEvent(this, instanceUniqueId, login);
-        applicationContext.publishEvent(updatedUserEvent);
+        this.publisher.publishEvent(new UpdatedUserEvent(this,this.busServiceMatcher.getServiceId(),login));
 
         return userData;
     }
@@ -76,20 +78,19 @@ public class UserController {
         return userData;
     }
 
+    @Getter
+    private ArrayList<String> updatedUserList = new ArrayList<>();
 
-    @RequestMapping(value="/publish", method = RequestMethod.POST)
-    public String publish(){
-        final String myUniqueId = applicationContext.getId(); // each service instance must have a unique context ID
-
-        final MyCustomRemoteEvent event =
-                new MyCustomRemoteEvent(this, myUniqueId, "hello world");
-
-        log.info("publish endpoint was called.");
-
-        applicationContext.publishEvent(event);
-
-        return "event published";
+    @EventListener
+    public void handleUpdatedUserEvent(UpdatedUserEvent event) { //To unit-test handleUpdateUserEvent
+        this.updatedUserList.add(event.getLogin());
+        log.info("Event was received for login "+event.getLogin()+
+                " with id "+event.getId()+
+                " by source "+event.getSource()+
+                " from originService "+event.getOriginService()+"" +
+                " with destinationService "+event.getDestinationService());
     }
+
     //TODO Handle user deletion (and fire event too)
 }
 

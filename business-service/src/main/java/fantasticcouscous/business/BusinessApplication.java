@@ -15,7 +15,6 @@ import java.util.Arrays;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients //Without it we get No qualifying bean of type 'fantasticcouscous.business.UserServiceProxy' available
-@RemoteApplicationEventScan //We will need to tell Spring Cloud to scan our package for custom events. By default, Spring Cloud only scans the org.springframework.cloud.bus.event package. We can do this by adding the @RemoteApplicationEventScan to our Application class:
 public class BusinessApplication {
 
     @Value("${spring.application.name}")

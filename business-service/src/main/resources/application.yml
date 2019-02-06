@@ -6,13 +6,3 @@ user-service:
 spring:
   cache:
     cache-names: user
-  cloud:
-    bus:
-      trace:
-        enabled: true
-      destination: 'coucous_les_zouzous'
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest

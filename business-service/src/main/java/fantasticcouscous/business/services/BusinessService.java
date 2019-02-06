@@ -28,8 +28,13 @@ public class BusinessService {
         return "Business operation is performed. Retrieved data for user : " + userData.toString();
     }
 
+    @CacheEvict(value = "user")
+    public void clearCacheForUser(String login){
+
+    }
+
     @CacheEvict(value = "user", allEntries = true)
-    public void clearUserCache(){
+    public void clearCacheForAllUsers(){
 
     }
 

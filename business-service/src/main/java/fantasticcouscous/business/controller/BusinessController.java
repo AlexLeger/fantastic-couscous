@@ -1,15 +1,17 @@
 package fantasticcouscous.business.controller;
 
-import fantasticcouscous.business.foreign.MyCustomRemoteEvent;
 import fantasticcouscous.business.services.BusinessService;
+import fantasticcouscous.tools.events.UpdatedUserEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
+@SpringBootConfiguration
 public class BusinessController {
 
     @Value("${spring.application.name}")
@@ -17,15 +19,6 @@ public class BusinessController {
 
     @Autowired
     private BusinessService businessService;
-
-    @Autowired
-    private ApplicationContext applicationContext;
-
-    public BusinessController(BusinessService businessService, ApplicationContext context) {
-
-        this.businessService = businessService;
-        this.applicationContext = context; //TODO Find out what that's for
-    }
 
     @GetMapping(value = "/service_info",
             produces = { "application/json" })
@@ -39,18 +32,14 @@ public class BusinessController {
         return businessService.performBusinessOperation(login);
     }
 
-    @RequestMapping(value="/publish", method = RequestMethod.POST)
-    public String publish() {
-        final String myUniqueId = applicationContext.getId(); // each service instance must have a unique context ID
-
-        final MyCustomRemoteEvent event =
-                new MyCustomRemoteEvent(this, myUniqueId, "hello world");
-
-        log.info("publish endpoint was called.");
-
-        applicationContext.publishEvent(event);
-
-        return "event published";
+    @EventListener
+    public void handleUserUpdate(UpdatedUserEvent event) {
+        this.businessService.clearCacheForUser(event.getLogin());
+        log.info("Event was received for login "+event.getLogin()+
+                " with id "+event.getId()+
+                " by source "+event.getSource()+
+                " from originService "+event.getOriginService()+"" +
+                " with destinationService "+event.getDestinationService());
     }
 
 }
