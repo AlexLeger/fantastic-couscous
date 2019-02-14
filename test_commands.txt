@@ -1,0 +1,6 @@
+java -jar build/libs/user-service-0.0.1-SNAPSHOT.jar --server.port=2002 >> ../logs/user-service_2002.log 2>&1
+
+java -jar build/libs/business-service-0.0.1-SNAPSHOT.jar --server.port=2000 >> ../logs/business-service_2000.log 2>&1
+java -jar build/libs/business-service-0.0.1-SNAPSHOT.jar --server.port=2004 >> ../logs/business-service_2004.log 2>&1
+
+

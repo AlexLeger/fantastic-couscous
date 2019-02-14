@@ -3,4 +3,4 @@ rootProject.name = 'fantastic-couscous'
 include 'user-service'
 include 'business-service'
 include 'registry-service'
-
+include 'tools'
