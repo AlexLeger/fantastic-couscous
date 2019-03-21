@@ -8,6 +8,31 @@
 :icons: font
 :hide-uri-scheme:
 
++++ <details><summary> +++
+Check reference.conf:
++++ </summary><div> +++
+----
+play {
+  http {
+    secret.key = asdf
+    secret.key = ${?SECRET_KEY}
+    ...
+  }
+  ...
+}
+----
+
+Regular text
+
++++ </div></details> +++
+
++++ <details><summary> +++
+Expand intro
++++ </summary><div> +++
 include::00_introduction.adoc[]
 
++++ </div></details> +++
+
 include::README/01_first_chapter.adoc[]
+
+
