@@ -1,0 +1,13 @@
+= Test ADOC Readme
+
+:imagesdir: images
+:sectnums:
+:toc: left
+:toclevels: 2
+:toc-title: Architecture
+:icons: font
+:hide-uri-scheme:
+
+include::00_introduction.adoc[]
+
+include::README/01_first_chapter.adoc[]
