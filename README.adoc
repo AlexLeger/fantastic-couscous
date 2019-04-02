@@ -1,6 +1,6 @@
 = Test ADOC Readme
 
-:imagesdir: images
+:imagesdir: _README
 :sectnums:
 :toc: left
 :toclevels: 2
@@ -34,5 +34,9 @@ include::00_introduction.adoc[]
 +++ </div></details> +++
 
 include::README/01_first_chapter.adoc[]
+Includes translates as link.
 
-
+.UI schema
+[#img-ui-schema]
+[caption="Figure 1: ",link=https://www.google.com]
+image::feed_details_1.png[ui_schmema,300,200]
