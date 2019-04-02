@@ -1,0 +1,42 @@
+= Test ADOC Readme
+
+:imagesdir: _README
+:sectnums:
+:toc: left
+:toclevels: 2
+:toc-title: Architecture
+:icons: font
+:hide-uri-scheme:
+
++++ <details><summary> +++
+Check reference.conf:
++++ </summary><div> +++
+----
+play {
+  http {
+    secret.key = asdf
+    secret.key = ${?SECRET_KEY}
+    ...
+  }
+  ...
+}
+----
+
+Regular text
+
++++ </div></details> +++
+
++++ <details><summary> +++
+Expand intro
++++ </summary><div> +++
+include::00_introduction.adoc[]
+
++++ </div></details> +++
+
+include::README/01_first_chapter.adoc[]
+Includes translates as link.
+
+.UI schema
+[#img-ui-schema]
+[caption="Figure 1: ",link=https://www.google.com]
+image::feed_details_1.png[ui_schmema,300,200]
