@@ -8,6 +8,7 @@
 :imagesdir: _README
 :sectnums:
 :toc:
+:toc-title:
 :icons: font
 :hide-uri-scheme:
 
