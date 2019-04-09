@@ -5,8 +5,16 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 = OperatorFabric (OpFab)
+:imagesdir: _README
+:sectnums:
+:toc:
+:toc-title: OperatorFabric README
+:icons: font
+:hide-uri-scheme:
 
 //TODO check task list
+//TODO Collapse port tables by default?
+//TODO Add links to other sections
 
 image:https://img.shields.io/badge/license-MPL_2.0-blue.svg[MPL-2.0 License,link=https://www.mozilla.org/en-US/MPL/2.0/]
 image:https://travis-ci.org/opfab/operatorfabric-core.svg?branch=master[Build Status,link=https://travis-ci.org/opfab/operatorfabric-core]
@@ -14,14 +22,6 @@ image:https://sonarcloud.io/api/project_badges/measure?project=org.lfenergy.oper
 image:https://sonarcloud.io/api/project_badges/measure?project=org.lfenergy.operatorfabric%3Aoperatorfabric-core&metric=coverage[Coverage,link=https://sonarcloud.io/component_measures?id=org.lfenergy.operatorfabric%3Aoperatorfabric-core&metric=Coverage]
 image:https://sonarcloud.io/api/project_badges/measure?project=org.lfenergy.operatorfabric%3Aoperatorfabric-core&metric=code_smells[Code Smells,link=https://sonarcloud.io/component_measures?id=org.lfenergy.operatorfabric%3Aoperatorfabric-core&metric=Maintainability]
 image:https://img.shields.io/website-up-down-green-red/http/opfab.github.io.svg[Website opfab.github.io,link=http://opfab.github.io/]
-
-:imagesdir: _README
-:sectnums:
-:toc: left
-:toclevels: 2
-:toc-title: OperatorFabric README
-:icons: font
-:hide-uri-scheme:
 
 OperatorFabric is a modular, extensible, industrial-strength and field-tested platform for use in electricity, water, and other utility operations.
 
@@ -39,16 +39,16 @@ To perform their duties, an operator has to interact with multiple applications 
 
 The idea is to aggregate all the notifications from all these applications into a single screen, and to allow the operator to act on them if needed.
 
+image:feed_details_1.png[Feed screen layout,450,300,align="center"]
+
 These notifications are materialized by *cards* sorted in a *feed* according to their period of relevance and their severity.
 When a card is selected in the feed, the right-hand pane displays the *details* of the card: information about the state of the parent process instance in the third-party application that published it, available actions, etc.
 
 In addition, the cards will also translate as events displayed on a *timeline* (its design is still under discussion) at the top of the screen.
 This view will be complimentary to the card feed in that it will allow the operator to see at a glance the status of processes for a given period, when the feed is more like a "To Do" list.
 
-image:feed_details_1.png[Feed screen layout, align="center"]
-
 Part of the value of OperatorFabric is that it makes the integration very simple on the part of the third-party applications.
-To start publishing cards to users in an OperatorFabric instance, all they have to do is:
+To start publishing cards to users in an Opera,torFabric instance, all they have to do is:
 
 * Register as a publisher through the "Thirds" service and provide a "bundle" containing handlebars templates defining how cards should be rendered, i18n info etc.
 * Publish cards as json containing card data through the card publication API
@@ -93,7 +93,7 @@ Please see "Getting Started" below for details on:
 * Docker Compose with 2.1+ file format support
 * Chrome (needed for UI tests in build)
 
-Note: Java 8.0.163-zulu is no longer available for security reasons, the next version is Java 8.0.192-zulu.
+NOTE: Java 8.0.163-zulu is no longer available for security reasons, the next version is Java 8.0.192-zulu.
 
 IMPORTANT: It is highly recommended to use https://sdkman.io/[sdkman] and
 https://github.com/creationix/nvm[nvm] to manage tools versions.
@@ -131,7 +131,112 @@ link:src/main/docker[src/main/docker]
 TODO
 //Todo add browser support info
 
+== Getting Started
+
+WARNING: The steps below assume that you are using https://sdkman.io/[sdkman] and
+https://github.com/creationix/nvm[nvm] to manage tools versions and that you have already installed them.
+
+TIP: If you encounter any issue, see troubleshooting below. In particular, a command that hangs then fails is often a proxy issue.
+//TODO Add link
+
+There are several ways to get started with OperatorFabric. Please look into the section that best fits your needs.
+//TODO Explain build or demo docker (x2)
+
+//+++ <details><summary> +++
+//**Error summary**
+//+++ </summary><div> +++
+//
+//.Error message
+//[source]
+//----
+//Paste error message
+//----
+//
+//.Possible causes & resolution
+//Describe possible causes and resolutions
+//
+//+++ </div></details> +++
++++ <details><summary> +++
+**Build & run using script**
++++ </summary><div> +++
+
+These steps describe how to use dockerized Mongo, RabbitMQ and SonarQube and build and run OperatorFabric using the `run_all.sh` script.
+
+.Clone repository
+----
+git clone https://github.com/opfab/operatorfabric-core.git
+cd operatorfabric-core
+----
+
+.Set up your environment (environment variables & appropriate versions of gradle, maven, etc.)
+----
+source ./bin/load_environment_light.sh
+----
+
+TIP: From now on, you can use environment variable $OF_HOME to get back to the repository home.
+
+.Deploy dockerized MongoDB, RabbitMQ and SonarQube
+MongoDB, RabbitMQ and SonarQube are needed for the build so tests can be run.
+
+A docker-compose file with properly configured containers is available link:src/main/docker/test-quality-environment/[there].
+
+If you haven't done so before, you will need to configure a docker network for the containers:
+----
+docker network create opfabnet
+----
+
+Then run the docker-compose in detached mode:
+----
+cd src/main/docker/test-quality-environment/
+docker-compose up -d
+----
+
+.Build and run OperatorFabric Services using the `run_all.sh` script
+----
+cd $OF_HOME
+./bin/run_all.sh -s users,time,cards-publication,cards-consultation,thirds -b true start
+----
+
+TIP: See `run_all.sh -h` for details.
+
+.Check services status
+----
+./bin/run_all.sh -s users,time,cards-publication,cards-consultation,thirds status
+----
+
+.Log into the UI
+
+URL: localhost:2002/ui/
+
+login: admin
+
+password: test
+
+WARNING: It might take a little while for the UI to load even after all services are running.
+
+WARNING: Don't forget the *final slash* in the URL or you will get an error.
+
+.Push cards to the feed
+
+You can check that you see cards into the feed by running the `push_card_loop.sh` script.
+----
+./services/core/cards-publication/src/main/bin/push_card_loop.sh
+----
+
++++ </div></details> +++
+
+**WORK IN PROGRESS**
+
+- Build & run using jar //TODO
+- Demo (full) //TODO
+- Demo + card loop or rest api //TODO
+
+When you feel ready to experiment with the project, or if the steps above don't quite cover what you're planning to do, please look into the Recipes section.
+//TODO Add link
+
 === Prerequisites
+
+//TODO Move this section
 
 Before running containers with docker-compose, it is required to configure a docker network for them
 ----
@@ -139,9 +244,12 @@ docker network create opfabnet
 ----
 You can also use the bin/setup_dockerized_environment which builds the services images ant sets up the `opfabnet` network.
 
-== Project Structure and Contents
+== Project Contents
+
+=== Project Structure
 
 //TODO Check project structure is up-to-date
+//TODO Should we keep both the tree and the text below? Use callouts?
 
 [source]
 ----
@@ -215,17 +323,19 @@ Sub-projects must conform to a few rules in order for the configured Gradle task
 
 ==== Java
 
-* [sub-project]/src/main/java : contains java source code
-* [sub-project]/src/test/java : contains java tests source code
-* [sub-project]/src/main/resources : contains resource files
-* [sub-project]/src/test/resources : contains test resource files
+[horizontal]
+[sub-project]/src/main/java:: contains java source code
+[sub-project]/src/test/java:: contains java tests source code
+[sub-project]/src/main/resources:: contains resource files
+[sub-project]/src/test/resources:: contains test resource files
 
 ==== Modeling
 
 Core services projects declaring REST APIS that use Swagger for their definition must declare two files:
 
-[sub-project]/src/main/modeling/swagger.yaml:: swagger api definition
-[sub-project]/src/main/modeling/config.json:: swagger generator configuration
+[horizontal]
+[sub-project]/src/main/modeling/swagger.yaml:: Swagger API definition
+[sub-project]/src/main/modeling/config.json:: Swagger generator configuration
 
 ==== Docker
 
@@ -240,67 +350,26 @@ Per project configuration :
 *[sub-project]/build/docker-volume/* by task *copyWorkingDir*. The latest
 can then be mounted as volume in docker containers.
 
-== 4. Docker demo
+=== Scripts (bin)
 
-Demoable global docker compose files are available at :
+[horizontal]
+bin/build_all.sh:: builds all artifacts as gradle is not able to manage inter project dependencies
+bin/clean_all.sh:: remove IDE data (project configuration, build output directory) - idea, vsc
+bin/load_environment_light.sh:: sets up environment when *sourced* (java version, gradle version, maven version, node version)
+bin/load_environment_ramdisk.sh:: sets up environment and links build subdirectories to a ramdisk when *sourced* at ~/tmp
+bin/run_all.sh:: runs all all services (see below)
+bin/setup_dockerized_environment.sh:: generate docker images for all services
 
-* [root]/src/main/docker/demo : sets up all services, generate a dummy card every 5 seconds
-* [root]/src/main/docker/deploy : sets up all services, ready for card reception
+==== load_environment_ramdisk.sh
 
-*This demo setup exposes the application UI at localhost:2002/ui/*
+There are prerequisites before sourcing load_environment_ramdisk.sh:
 
-*IMPORTANT:* Don't forget the *final slash* in the URL or you will get an error.
+* Logged user needs sudo rights for mount
+* System needs to have enough free ram
 
-Card publication entry points are exposed at localhost:2102/cards
+CAUTION: Never ever run a `gradle clean` to avoid deleting those links.
 
-For debugging purpose the following ports are also exposed :
-
-|===
-|Port |Forwards to | |
-
-|2000 |config |8080 |Configuration service http (REST)
-|2001 |registry |8080 |Registry service http (REST)
-|2002 |gateway |8080 |Gateway service http (REST+html)
-|2100 |thirds |8080 |Third party management service http (REST)
-|2101 |time |8080 |Time management service http (REST)
-|2102 |cards-publication |8080 |card publication service http (REST)
-|2103 |users |8080 |Users management service http (REST)
-|2104 |cards-consultation |8080 |card consultation service http (REST)
-|2200 |web-ui |8080 |card consultation service http (REST)
-|3000 |oauth |8080 |Oauth development service http (REST)
-|4000 |config |5005 |java debug port
-|4001 |registry |5005 |java debug port
-|4002 |gateway |5005 |java debug port
-|4100 |thirds |5005 |java debug port
-|4101 |time |5005 |java debug port
-|4102 |cards-publication |5005 |java debug port
-|4103 |users |5005 |java debug port
-|4104 |cards-consultation |5005 |java debug port
-|4200 |web-ui |5005 |java debug port
-|5000 |oauth |5005 |java debug port
-|27017 |mongo |27017 |mongo api port
-|5672 |rabbitmq |5672 |amqp api port
-|15672 |rabbitmq |15672 |rabbitmq api port
-|===
-
-== 6. Scripts (bin)
-
-* bin/build_all.sh : builds all artifacts as gradle is not able to manage inter project dependencies
-* bin/clean_all.sh : remove ide data (project configuration, build output idr) - idea, vsc ;
-* bin/load_environment_light.sh : sets up environment when *sourced* (java version, gradle version, maven version, node version) ;
-* bin/load_environment_ramdisk.sh : sets up environment and links build subdirectories to a ramdisk when *sourced* at ~/tmp ;
-* bin/run_all.sh : runs all all services (see bellow)
-* bin/setup_dockerized_environment.sh : generate docker images for all services;
-
-=== load_environment_ramdisk.sh
-
-There are prerequisites before sourcing load_environment_ramdisk.sh :
-
-* logged user needs sudo rights for mount
-* systems needs to have enough free ram
-* never ever run a gradle clean to avoid those links being deleted
-
-=== run_all.sh
+==== run_all.sh
 
 Please see `run_all.sh -h` usage before running.
 
@@ -336,11 +405,11 @@ Ports configuration
 |5000 |oauth |java debug port
 |===
 
-=== setup_dockerized_environment.sh
+==== setup_dockerized_environment.sh
 
 Please see `setup_dockerized_environment.sh -h` usage before running.
 
-Builds all projects, generate docker images and volumes for docker-compose, also sets up docker network "opfabnet" if needed.
+Builds all sub-projects, generate docker images and volumes for docker-compose, also sets up docker network "opfabnet" if needed.
 
 == Environment variables
 
@@ -402,7 +471,7 @@ and plugins official documentation
 ** generateSwaggerCodeEndpoints : ggenerate swagger code for subproject. Outputs to build/swagger.
 ** debugSwaggerOperations : generate swager code from /src/main/modeling/config.json to build/swagger-analyse
 
-===== Third Party Service
+==== Third Party Service
 
 * Test tasks
 ** prepareTestDataDir : prepare directory (build/test-data) for test data
@@ -419,13 +488,56 @@ and plugins official documentation
 
 === Tools
 
-==== Common tasks for all subprojects
+==== Common tasks for all sub-projects
 
 * Standard java gradle tasks
 
 ==== swagger-spring-generators
 
 Nope
+
+== Docker demo
+
+Demoable global docker compose files are available at :
+
+* [root]/src/main/docker/demo : sets up all services, generate a dummy card every 5 seconds
+* [root]/src/main/docker/deploy : sets up all services, ready for card reception
+
+*This demo setup exposes the application UI at localhost:2002/ui/*
+
+WARNING: Don't forget the *final slash* in the URL or you will get an error.
+
+Card publication entry points are exposed at localhost:2102/cards
+
+For debugging purpose the following ports are also exposed :
+
+|===
+|Port |Forwards to | |
+
+|2000 |config |8080 |Configuration service http (REST)
+|2001 |registry |8080 |Registry service http (REST)
+|2002 |gateway |8080 |Gateway service http (REST+html)
+|2100 |thirds |8080 |Third party management service http (REST)
+|2101 |time |8080 |Time management service http (REST)
+|2102 |cards-publication |8080 |card publication service http (REST)
+|2103 |users |8080 |Users management service http (REST)
+|2104 |cards-consultation |8080 |card consultation service http (REST)
+|2200 |web-ui |8080 |card consultation service http (REST)
+|3000 |oauth |8080 |Oauth development service http (REST)
+|4000 |config |5005 |java debug port
+|4001 |registry |5005 |java debug port
+|4002 |gateway |5005 |java debug port
+|4100 |thirds |5005 |java debug port
+|4101 |time |5005 |java debug port
+|4102 |cards-publication |5005 |java debug port
+|4103 |users |5005 |java debug port
+|4104 |cards-consultation |5005 |java debug port
+|4200 |web-ui |5005 |java debug port
+|5000 |oauth |5005 |java debug port
+|27017 |mongo |27017 |mongo api port
+|5672 |rabbitmq |5672 |amqp api port
+|15672 |rabbitmq |15672 |rabbitmq api port
+|===
 
 == Recipes
 
@@ -434,8 +546,8 @@ Nope
 To Generate all docker images run `bin/setup_dockerized_environment`,
 it will generate all images and also generate an opfabnet docker network
 
-NB: if you work behind a proxy you need to specify the following properties to
-configure alpine apk package manager :
+INFORMATION: If you work behind a proxy you need to specify the following properties to
+configure alpine apk package manager:
 
 * apk.proxy.uri: proxy http uri ex: "http://somewhere:3128[http://somewhere:3128]" (defaults to blank)
 * apk.proxy.httpsuri: proxy http uri ex: "http://somewhere:3128[http://somewhere:3128]" (defaults to apk.proxy.uri value)
@@ -451,7 +563,7 @@ Alternatively, you may configure the following environment variables :
 
 === Managing a service with docker-compose
 
-Prerequisites : images must be registred
+Prerequisites : images must be registered
 
 * To deploy a service run `gradle :[subprojectPath]:composeUp`
 example for the third-party-service service :
@@ -485,24 +597,89 @@ If you run the services using `bootRun` gradle task or the provided docker-compo
 
 [cols="<,>,>,>"]
 |===
-|Service |bootRun port |docker-compose mapping |docker-compose debug mapping 
+|Service |bootRun port |docker-compose mapping |docker-compose debug mapping
 
-|registry |2001 |2001 |2001 
-|gateway |2002 |2002 |2002 
-|thirds |2100 |2100 |2100 
-|time |2101 |2101 |2101 
-|cards-publication |2102 |2102 |2102 
-|users |2103 |2103 |2103 
-|cards-consultation |2104 |2104 |2104 
-|oauth |3000 |3000 |3000 
-|config |4000 |4000 |4000 
-|registry |4001 |4001 |4001 
-|gateway |4002 |4002 |4002 
-|thirds |4100 |4100 |4100 
-|time |4101 |4101 |4101 
-|cards-publication |4102 |4102 |4102 
-|users |4103 |4103 |4103 
-|cards-consultation |4103 |4103 |4103 
-|oauth |5000 |5000 |5000 
-|oauth |5000 |5000 |5000 
+|registry |2001 |2001 |2001
+|gateway |2002 |2002 |2002
+|thirds |2100 |2100 |2100
+|time |2101 |2101 |2101
+|cards-publication |2102 |2102 |2102
+|users |2103 |2103 |2103
+|cards-consultation |2104 |2104 |2104
+|oauth |3000 |3000 |3000
+|config |4000 |4000 |4000
+|registry |4001 |4001 |4001
+|gateway |4002 |4002 |4002
+|thirds |4100 |4100 |4100
+|time |4101 |4101 |4101
+|cards-publication |4102 |4102 |4102
+|users |4103 |4103 |4103
+|cards-consultation |4103 |4103 |4103
+|oauth |5000 |5000 |5000
+|oauth |5000 |5000 |5000
 |===
+
+== Troubleshooting
+
++++ <details><summary> +++
+**Error using SDKMAN : Internet not reachable**
++++ </summary><div> +++
+
+.Error message
+[source]
+----
+==== INTERNET NOT REACHABLE! ===================================================
+
+ Some functionality is disabled or only partially available.
+ If this persists, please enable the offline mode:
+
+   $ sdk offline
+
+================================================================================
+----
+
+.Possible causes & resolution
+If network issues have been ruled out, it's most likely a proxy issue.
+See setting up proxy -> TODO
+//TODO Create section & add link
++++ </div></details> +++
+
++++ <details><summary> +++
+**Proxy error when running third-party docker-compose**
++++ </summary><div> +++
+
+.Error message
+[source]
+----
+Pulling rabbitmq (rabbitmq:3-management)...
+ERROR: Get https://registry-1.docker.io/v2/: Proxy Authentication Required
+----
+
+.Possible causes & resolution
+When running docker-compose files using third-party images(such as rabbitmq, mongodb etc.) the first time, docker will need to pull these images from their repositories.
+If the docker proxy isn't set properly, you will see the above message.
+
+To set the proxy, follow https://docs.docker.com/config/daemon/systemd/[these steps from the docker documentation].
+
+If your proxy needs authentication, add your user and password as follows:
+----
+HTTP_PROXY=http://user:password@proxy.example.com:80/
+----
+
+IMPORTANT: The password should be URL-encoded.
++++ </div></details> +++
+
+//+++ <details><summary> +++
+//**Error summary**
+//+++ </summary><div> +++
+//
+//.Error message
+//[source]
+//----
+//Paste error message
+//----
+//
+//.Possible causes & resolution
+//Describe possible causes and resolutions
+//
+//+++ </div></details> +++
