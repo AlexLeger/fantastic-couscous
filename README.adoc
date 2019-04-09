@@ -8,7 +8,6 @@
 :imagesdir: _README
 :sectnums:
 :toc:
-:toc-title: OperatorFabric README
 :icons: font
 :hide-uri-scheme:
 
