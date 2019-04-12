@@ -4,17 +4,13 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-= OperatorFabric (OpFab)
+= OperatorFabric README
 :imagesdir: _README
 :sectnums:
-:toc:
-:toc-title:
+:toc: macro
+:toclevels: 1
 :icons: font
 :hide-uri-scheme:
-
-//TODO check task list
-//TODO Collapse port tables by default?
-//TODO Add links to other sections
 
 image:https://img.shields.io/badge/license-MPL_2.0-blue.svg[MPL-2.0 License,link=https://www.mozilla.org/en-US/MPL/2.0/]
 image:https://travis-ci.org/opfab/operatorfabric-core.svg?branch=master[Build Status,link=https://travis-ci.org/opfab/operatorfabric-core]
@@ -22,6 +18,7 @@ image:https://sonarcloud.io/api/project_badges/measure?project=org.lfenergy.oper
 image:https://sonarcloud.io/api/project_badges/measure?project=org.lfenergy.operatorfabric%3Aoperatorfabric-core&metric=coverage[Coverage,link=https://sonarcloud.io/component_measures?id=org.lfenergy.operatorfabric%3Aoperatorfabric-core&metric=Coverage]
 image:https://sonarcloud.io/api/project_badges/measure?project=org.lfenergy.operatorfabric%3Aoperatorfabric-core&metric=code_smells[Code Smells,link=https://sonarcloud.io/component_measures?id=org.lfenergy.operatorfabric%3Aoperatorfabric-core&metric=Maintainability]
 image:https://img.shields.io/website-up-down-green-red/http/opfab.github.io.svg[Website opfab.github.io,link=http://opfab.github.io/]
+image:https://img.shields.io/badge/Join%20us%20on-Mattermost-%237473C0.svg[Join us on Mattermost,link=https://team.opfab.org]
 
 OperatorFabric is a modular, extensible, industrial-strength and field-tested platform for use in electricity, water, and other utility operations.
 
@@ -32,6 +29,11 @@ OperatorFabric is a modular, extensible, industrial-strength and field-tested pl
 * Scripting (ex: Python, JavaScript)
 
 It is an open source project initiated by http://www.rte-france.com/[RTE] with https://www.lfenergy.org/[LF Energy].
+
+toc::[]
+
+//TODO Collapse port tables by default?
+//TODO Add links to other sections
 
 == What does OperatorFabric do in practice?
 
@@ -74,15 +76,17 @@ operators reached this agreement.
 
 This project and all its sub-projects are licensed under https://www.mozilla.org/en-US/MPL/2.0/[Mozilla Public License V2.0]. See link:LICENSE.txt[LICENSE.txt]
 
+== Contributing
+
+Read our link:https://github.com/opfab/.github/blob/master/CONTRIBUTING.adoc[CONTRIBUTING] file for more information on how to contribute to the project.
+
 == Requirements
 
 IMPORTANT: This section describes the projects requirements regardless of installation options.
-Please see "Getting Started" below for details on:
+Please see <<Getting Started>> below for details on:
 
 * setting up a development environment with these prerequisites
 * building and running OperatorFabric
-
-//TODO Add link
 
 === Tools and libraries
 
@@ -128,6 +132,7 @@ link:src/main/docker[src/main/docker]
 
 === Browser support
 
+OperatorFabric
 TODO
 //Todo add browser support info
 
@@ -136,11 +141,9 @@ TODO
 WARNING: The steps below assume that you are using https://sdkman.io/[sdkman] and
 https://github.com/creationix/nvm[nvm] to manage tools versions and that you have already installed them.
 
-TIP: If you encounter any issue, see troubleshooting below. In particular, a command that hangs then fails is often a proxy issue.
-//TODO Add link
+TIP: If you encounter any issue, see <<Troubleshooting>> below. In particular, a command that hangs then fails is often a proxy issue.
 
 There are several ways to get started with OperatorFabric. Please look into the section that best fits your needs.
-//TODO Explain build or demo docker (x2)
 
 //+++ <details><summary> +++
 //**Error summary**
@@ -226,13 +229,13 @@ You can check that you see cards into the feed by running the `push_card_loop.sh
 +++ </div></details> +++
 
 **WORK IN PROGRESS**
+//TODO
 
 - Build & run using jar //TODO
 - Demo (full) //TODO
 - Demo + card loop or rest api //TODO
 
-When you feel ready to experiment with the project, or if the steps above don't quite cover what you're planning to do, please look into the Recipes section.
-//TODO Add link
+When you feel ready to experiment with the project, or if the steps above don't quite cover what you're planning to do, please look into the <<Recipes>> section.
 
 === Prerequisites
 
@@ -339,8 +342,7 @@ Core services projects declaring REST APIS that use Swagger for their definition
 
 ==== Docker
 
-Services project all have docker image generated in their build cycle (See gradle tasks).
-//TODO Add Link
+Services project all have docker image generated in their build cycle (See <<Gradle Tasks>>).
 
 Per project configuration :
 
@@ -431,6 +433,8 @@ Additionally, you may want to configure the following variables
 
 == Gradle Tasks
 
+//TODO check task list
+
 In this section only the most useful tasks are described for more
 information on tasks, refer to "tasks" gradle task output and to gradle
 and plugins official documentation
@@ -441,23 +445,23 @@ and plugins official documentation
 
 * Standard java gradle tasks
 * SpringBoot tasks
-** bootJar : Generate project executable jar - assemble depends on this task;
-** bootRun : Runs the application;
+** bootJar : Generate project executable jar - assemble depends on this task
+** bootRun : Runs the application
 * Palantir Docker tasks
-** docker - Builds Docker image.
-** dockerClean - Cleans Docker build directory.
+** docker - Builds Docker image
+** dockerClean - Cleans Docker build directory
 ** dockerfileZip - Bundles the configured Dockerfile in a zip file
-** dockerPrepare - Prepares Docker build directory.
-** dockerPush - Pushes named Docker image to configured Docker Hub.
+** dockerPrepare - Prepares Docker build directory
+** dockerPush - Pushes named Docker image to configured Docker Hub
 ** dockerPush[tag] - Pushes the Docker image with tag [tag] to configured Docker Hub
 ** dockerTag - Applies all tags to the Docker image.
 ** dockerTag[tag] - Tags Docker image with tag [tag]
 * Docker Compose tasks:
-** composeUp: runs docker-compose up for docker file;
-** composeUp: runs docker-compose down for docker file;
-** composeStart: runs docker-compose start for docker file;
-** composeStop: runs docker-compose stop for docker file;
-** composeLogs: runs docker-compose logs -f for docker file;
+** composeUp: runs docker-compose up for docker file
+** composeDown: runs docker-compose down for docker file
+** composeStart: runs docker-compose start for docker file
+** composeStop: runs docker-compose stop for docker file
+** composeLogs: runs docker-compose logs -f for docker file
 * Other:
 ** copyWorkingDir : copies [sub-project]/src/main/docker/volume to [sub-project]/build/
 ** copyDependencies : copy dependencies to build/libs
@@ -595,6 +599,10 @@ By default all service built artifacts are configured with server.port set to 80
 
 If you run the services using `bootRun` gradle task or the provided docker-compose files (see [prj]/src/main/docker) the ports used are
 
++++ <details><summary> +++
+**Port table**
++++ </summary><div> +++
+
 [cols="<,>,>,>"]
 |===
 |Service |bootRun port |docker-compose mapping |docker-compose debug mapping
@@ -618,6 +626,9 @@ If you run the services using `bootRun` gradle task or the provided docker-compo
 |oauth |5000 |5000 |5000
 |oauth |5000 |5000 |5000
 |===
+
++++ </div></details> +++
+
 
 == Troubleshooting
 
